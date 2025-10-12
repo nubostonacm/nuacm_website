@@ -1,4 +1,4 @@
-import { FaLinkedin, FaInstagram, FaSlack } from "react-icons/fa";
+import { FaLinkedin, FaInstagram, FaDiscord } from "react-icons/fa";
 
 const Footer = () => {
     return (
@@ -15,12 +15,12 @@ const Footer = () => {
               <FaLinkedin size={28} />
             </a>
             <a
-              href="https://acmnortheaste-ufq4028.slack.com/join/shared_invite/zt-2tvi4bbwl-~iCfzBRxEYW1FfKioWH6ew#/shared-invite/email"
+              href="https://discord.gg/BU6yggFGFE"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-tiffany-blue"
             >
-              <FaSlack size={28} />
+              <FaDiscord size={28} />
             </a>
             <a
               href="https://www.instagram.com/northeasternacm/"
