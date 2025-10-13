@@ -32,36 +32,54 @@ export default function PastEvents() {
   return (
     <section
       id="past_events"
-      className="min-h-screen bg-gradient-to-b from-[#1E2833] to-[#2374A7]"
+      className="min-h-screen bg-[#2374A7] pt-20 md:pt-25 pb-24"
+      style={{ scrollMarginTop: "5rem" }}
     >
-      <div className="container mx-auto px-4 py-24">
-        <h2 className="text-white text-4xl font-bold text-center mb-12 tracking-wide">
+      <div className="container mx-auto px-4">
+        <h2 className="text-white text-4xl p-10 sm:text-4xl font-bold text-center mb-8 sm:mb-12 tracking-wide">
           Past Events
         </h2>
 
-        {/* Horizontal Scroll Container */}
-        <div className="flex space-x-6 overflow-x-auto scrollbar-thin scrollbar-thumb-[#4098C2]/60 scrollbar-track-[#1E2833]/30 pb-4">
+        
+        <div className="
+          -mx-4 px-4
+          flex gap-4 sm:gap-6
+          overflow-x-auto
+          snap-x snap-mandatory
+          scrollbar-thin scrollbar-thumb-[#4098C2]/60 scrollbar-track-[#1E2833]/30
+          pb-2
+        ">
           {past_events.map(({ title, img, desc }) => (
             <article
               key={title}
-              className="flex-none w-96 rounded-2xl overflow-hidden bg-[#1E2833] border border-[#4098C2]/30 shadow-xl transition-transform hover:-translate-y-0.5 hover:shadow-2xl"
+              className="
+                snap-center
+                flex-none
+                w-[88vw] sm:w-[420px] md:w-96
+                rounded-2xl overflow-hidden
+                bg-[#1E2833]/85 backdrop-blur-sm
+                border border-[#4098C2]/30
+                shadow-xl transition-transform hover:-translate-y-0.5 hover:shadow-2xl
+              "
             >
-              {/* Image */}
               <div className="relative w-full aspect-[16/9] overflow-hidden">
                 <img
                   src={img}
                   alt={title}
                   className="absolute inset-0 h-full w-full object-cover"
+                  loading="lazy"
                 />
               </div>
 
               {/* Text */}
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold text-[#5FBBC4] mb-2 relative">
+              <div className="p-5 sm:p-6">
+                <h3 className="text-xl sm:text-2xl font-semibold text-[#5FBBC4] mb-2">
                   {title}
-                  <div className="w-16 h-[3px] bg-[#4098C2] mt-2 rounded-full bg-opacity-80"></div>
                 </h3>
-                <p className="text-gray-200 leading-relaxed">{desc}</p>
+                <div className="w-16 h-[3px] bg-[#4CAFCE]/90 rounded-full mb-3"></div>
+                <p className="text-gray-200/90 text-sm sm:text-base leading-relaxed">
+                  {desc}
+                </p>
               </div>
             </article>
           ))}
