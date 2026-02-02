@@ -1,17 +1,26 @@
+# NUA Hackathon Website
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+It includes a Forminit-powered headless form backend for hackathon registration.
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
 # or
+yarn
 yarn dev
 # or
+pnpm install
 pnpm dev
 # or
+bun install
 bun dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
