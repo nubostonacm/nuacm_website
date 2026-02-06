@@ -5,26 +5,39 @@ import { Forminit } from 'forminit';
 
 export default function HackathonSection() {
   const [status, setStatus] = useState('idle');
-  const [error, setError] = useState(null);
-  const forminit = new Forminit({ proxyUrl: '/api/forminit' });
+  const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e) {
+  // Absolute URL ensures it works on Vercel preview/production
+  const forminit = new Forminit({
+    proxyUrl: `${typeof window !== 'undefined' ? window.location.origin : ''}/api/forminit`,
+  });
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    console.log('handleSubmit called'); // Debug log
     setStatus('loading');
     setError(null);
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const { data, error: submitError } = await forminit.submit('5c3az6ly4ga', formData);
 
-    if (submitError) {
+    try {
+      const { data, error: submitError } = await forminit.submit('5c3az6ly4ga', formData);
+
+      if (submitError) {
+        setStatus('error');
+        setError(submitError.message);
+        return;
+      }
+
+      console.log('Forminit response:', data); // Debug log
+      setStatus('success');
+      form.reset();
+    } catch (err: any) {
+      console.error('Form submission failed:', err);
       setStatus('error');
-      setError(submitError.message);
-      return;
+      setError(err.message || 'Unknown error');
     }
-
-    setStatus('success');
-    form.reset();
   }
 
   return (
@@ -34,7 +47,7 @@ export default function HackathonSection() {
     >
       <div className="bg-gunmetal bg-opacity-50 rounded-xl p-12 max-w-3xl text-center flex flex-col items-center gap-6">
         <h2 className="text-4xl font-bold text-gunmetal mb-2">
-          NUA Hackathon — March 14–15
+          NUACM Hackathon — March 14–15
         </h2>
         <p className="text-lg text-white leading-relaxed">
           Build something amazing in 24 hours. Meet students across disciplines,
@@ -46,7 +59,7 @@ export default function HackathonSection() {
           <input type="text" name="fi-sender-lastName" placeholder="Last Name" className="input" required />
           <input type="email" name="fi-sender-email" placeholder="Email" className="input" required />
           <input type="text" name="fi-text-school" placeholder="School" className="input" required />
-          
+
           <select name="fi-select-strength" className="input" required>
             <option value="">Select Strength</option>
             <option value="Backend">Backend</option>
