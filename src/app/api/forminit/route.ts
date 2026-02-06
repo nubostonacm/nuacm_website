@@ -1,71 +1,71 @@
+// app/api/forminit/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
-const apiKey = process.env.FORMINIT_API_KEY;
-
-if (!apiKey) {
-  throw new Error("FORMINIT_API_KEY is not set");
-}
-
 export async function POST(req: NextRequest) {
+  console.log("=== Forminit API Route Called ===");
+  
   try {
     const body = await req.json();
-    console.log("Incoming request body:", body);
-
-    // Extract form ID and fields from the request
-    const { formId, ...fields } = body;
-
-    // Make direct request to Forminit API
-    const forminitResponse = await fetch(
-      `https://api.forminit.com/api/v1/forms/${formId}/submissions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify(fields),
-      }
-    );
-
-    const responseText = await forminitResponse.text();
-    console.log("Forminit raw response:", responseText);
-    console.log("Forminit status:", forminitResponse.status);
-
-    // Parse the response
-    let responseData;
-    try {
-      responseData = JSON.parse(responseText);
-    } catch (e) {
-      // If it's not JSON, treat it as success if status is 2xx
-      if (forminitResponse.ok) {
-        responseData = { success: true };
-      } else {
-        return NextResponse.json(
-          { error: "Invalid response from Forminit", details: responseText },
-          { status: 500 }
-        );
-      }
+    console.log("Received body:", body);
+    
+    const apiKey = process.env.FORMINIT_API_KEY;
+    
+    if (!apiKey) {
+      console.error("API key missing!");
+      return NextResponse.json(
+        { data: null, error: { message: "API key not configured" } },
+        { status: 500 }
+      );
     }
 
-    // Return success response in the format Forminit client expects
+    const { formId, fields } = body;
+    
+    if (!formId) {
+      return NextResponse.json(
+        { data: null, error: { message: "Form ID is required" } },
+        { status: 400 }
+      );
+    }
+
+    console.log("Form ID:", formId);
+    console.log("Fields to submit:", fields);
+
+    const forminitUrl = `https://api.forminit.com/api/v1/forms/${formId}/submissions`;
+    console.log("Calling:", forminitUrl);
+
+    const forminitResponse = await fetch(forminitUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(fields),
+    });
+
+    console.log("Forminit response status:", forminitResponse.status);
+    
+    const responseText = await forminitResponse.text();
+    console.log("Forminit response body:", responseText);
+
     if (forminitResponse.ok) {
       return NextResponse.json({
-        data: responseData,
+        data: { success: true },
         error: null,
       });
     } else {
       return NextResponse.json({
         data: null,
-        error: { message: responseData.message || "Submission failed" },
-      });
+        error: { message: responseText || "Submission failed" },
+      }, { status: forminitResponse.status });
     }
 
   } catch (err: any) {
-    console.error("Forminit proxy error:", err);
+    console.error("API Route Error:", err);
+    
     return NextResponse.json(
       {
         data: null,
-        error: { message: err.message || "Failed to submit form" },
+        error: { message: err.message },
       },
       { status: 500 }
     );

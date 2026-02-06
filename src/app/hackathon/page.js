@@ -5,6 +5,8 @@ export default function HackathonSection() {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
 
+  const FORM_ID = '5c3az6ly4ga'; // Define it here
+
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus('loading');
@@ -13,8 +15,8 @@ export default function HackathonSection() {
     const form = e.currentTarget;
     const formData = Object.fromEntries(new FormData(form).entries());
 
-    const payload = {
-      formId: '5c3az6ly4ga',
+    // DON'T include formId in the fields
+    const fields = {
       'fi-sender-email': formData['fi-sender-email'] || '',
       'fi-sender-firstName': formData['fi-sender-firstName'] || '',
       'fi-sender-lastName': formData['fi-sender-lastName'] || '',
@@ -23,7 +25,13 @@ export default function HackathonSection() {
       'fi-select-strength': formData['fi-select-strength'] || '',
     };
 
-    console.log('Submitting payload:', payload);
+    // Send formId separately
+    const payload = {
+      formId: FORM_ID,
+      fields: fields,
+    };
+
+    console.log('Submitting:', payload);
 
     try {
       const response = await fetch('/api/forminit', {
