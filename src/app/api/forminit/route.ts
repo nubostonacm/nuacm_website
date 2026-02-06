@@ -1,4 +1,5 @@
 import { createForminitProxy } from "forminit/next";
+import { NextRequest, NextResponse } from "next/server";
 
 const apiKey = process.env.FORMINIT_API_KEY;
 
@@ -6,25 +7,14 @@ if (!apiKey) {
   throw new Error("FORMINIT_API_KEY is not set");
 }
 
-const proxy = createForminitProxy({ apiKey }) as unknown as (req: Request) => Promise<any>;
+// This returns an object with a POST method
+const forminitProxy = createForminitProxy({ apiKey });
 
-export async function POST(req: Request) {
-  // Parse the body first
-  const body = await req.json();
+// Re-export POST directly
+export async function POST(req: NextRequest) {
+  // Call the POST method from the proxy object
+  const response = await forminitProxy.POST(req);
 
-  // Forward a new Request with the same method, headers, and parsed body
-  const forminitReq = new Request(req.url, {
-    method: req.method,
-    headers: req.headers,
-    body: JSON.stringify(body),
-  });
-
-  // Call the proxy
-  const result = await proxy(forminitReq);
-
-  // Always return a proper JSON Response
-  return new Response(JSON.stringify(result), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  // Next.js expects NextResponse or Response
+  return response;
 }
