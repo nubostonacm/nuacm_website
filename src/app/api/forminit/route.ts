@@ -2,11 +2,13 @@
 import { createForminitProxy } from 'forminit/next';
 import { NextRequest } from 'next/server';
 
-const proxy = createForminitProxy({
-  apiKey: process.env.FORMINIT_API_KEY,
-});
+const apiKey = process.env.FORMINIT_API_KEY;
 
-export async function POST(req: NextRequest) {
-  return proxy.POST(req);
+if (!apiKey) {
+  throw new Error("FORMINIT_API_KEY is not set");
 }
+
+const proxy = createForminitProxy({
+  apiKey,
+});
 
