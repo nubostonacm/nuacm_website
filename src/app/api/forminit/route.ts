@@ -14,22 +14,28 @@ export async function POST(req: NextRequest) {
     // Make the proxy request
     const proxyResponse = await forminitProxy.POST(req);
 
-    // Read the raw text to see exactly what Forminit returned
+    // Read the raw text (in case it's HTML or non-JSON)
     const rawText = await proxyResponse.text();
+
+    // Log everything for debugging
     console.log("=== Forminit raw response ===");
     console.log("Status:", proxyResponse.status);
     console.log("Headers:", Object.fromEntries(proxyResponse.headers.entries()));
     console.log("Body:", rawText);
 
-    // Try parsing JSON safely
+    // Try to parse JSON safely
     let data;
     try {
       data = JSON.parse(rawText);
     } catch {
-      console.warn("Response is not JSON");
-      data = { error: "Forminit did not return JSON", raw: rawText };
+      data = {
+        error: "Forminit did not return JSON",
+        status: proxyResponse.status,
+        raw: rawText,
+      };
     }
 
+    // Always return JSON to frontend
     return NextResponse.json(data, { status: proxyResponse.status });
   } catch (err: any) {
     console.error("Forminit POST error:", err);
