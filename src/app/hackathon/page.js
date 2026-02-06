@@ -7,7 +7,6 @@ export default function HackathonSection() {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
 
-  // Absolute proxy URL ensures Vercel resolves it correctly
   const proxyUrl =
     typeof window !== 'undefined'
       ? `${window.location.origin}/api/forminit`
@@ -21,15 +20,24 @@ export default function HackathonSection() {
     setError(null);
 
     const form = e.currentTarget;
-
-    // Convert FormData to plain object for logging
     const formData = Object.fromEntries(new FormData(form).entries());
-    console.log('Submitting form data:', formData);
+
+    // Map keys to exactly match Forminit field names
+    const payload = {
+      'fi-sender-email': formData['fi-sender-email'] || '',
+      'fi-sender-firstName': formData['fi-sender-firstName'] || '',
+      'fi-sender-lastName': formData['fi-sender-lastName'] || '',
+      'fi-text-school': formData['fi-text-school'] || '',
+      'fi-text-questions': formData['fi-text-questions'] || '',
+      'fi-select-strength': formData['fi-select-strength'] || '',
+    };
+
+    console.log('Submitting mapped form data:', payload);
 
     try {
       const { data, error: submitError } = await forminit.submit(
-        '5c3az6ly4ga', // your Forminit form ID
-        formData
+        '5c3az6ly4ga', // Your Forminit form ID
+        payload
       );
 
       console.log('Forminit response:', { data, submitError });
@@ -61,18 +69,17 @@ export default function HackathonSection() {
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
-          {/* Field names MUST match your Forminit form blocks */}
-          <input type="text" name="First Name" placeholder="First Name" className="input" required />
-          <input type="text" name="Last Name" placeholder="Last Name" className="input" required />
-          <input type="email" name="Email Address" placeholder="Email" className="input" required />
-          <input type="text" name="School" placeholder="School" className="input" required />
-          <select name="Strength" className="input" required>
+          <input type="text" name="fi-sender-firstName" placeholder="First Name" className="input" required />
+          <input type="text" name="fi-sender-lastName" placeholder="Last Name" className="input" required />
+          <input type="email" name="fi-sender-email" placeholder="Email" className="input" required />
+          <input type="text" name="fi-text-school" placeholder="School" className="input" required />
+          <select name="fi-select-strength" className="input" required>
             <option value="">Select Strength</option>
             <option value="Backend">Backend</option>
             <option value="Frontend">Frontend</option>
             <option value="ML">ML</option>
           </select>
-          <textarea name="Questions" placeholder="Any questions?" className="input" />
+          <textarea name="fi-text-questions" placeholder="Any questions?" className="input" />
 
           {status === 'error' && <p className="text-red-500">{error}</p>}
           {status === 'success' && <p className="text-green-500">Registration submitted!</p>}
