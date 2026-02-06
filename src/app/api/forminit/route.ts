@@ -1,8 +1,6 @@
 import { createForminitProxy } from "forminit/next";
 import { NextRequest, NextResponse } from "next/server";
 
-console.log("FORMINIT_API_KEY:", process.env.FORMINIT_API_KEY);
-
 const apiKey = process.env.FORMINIT_API_KEY;
 
 if (!apiKey) {
@@ -12,6 +10,18 @@ if (!apiKey) {
 const forminitProxy = createForminitProxy({ apiKey });
 
 export async function POST(req: NextRequest) {
-  const response = await forminitProxy.POST(req); // Forminit adds X-API-KEY automatically
-  return response; // NextResponse
+  try {
+    const proxyResponse = await forminitProxy.POST(req);
+
+    const data = await proxyResponse.json();
+
+    return NextResponse.json(data);
+  } catch (err: any) {
+    console.error("Forminit POST error:", err);
+
+    return NextResponse.json(
+      { error: err.message || "Forminit request failed" },
+      { status: 500 }
+    );
+  }
 }
