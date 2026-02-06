@@ -11,30 +11,39 @@ const forminitProxy = createForminitProxy({ apiKey });
 
 export async function POST(req: NextRequest) {
   try {
-    // Proxy the request
     const proxyResponse = await forminitProxy.POST(req);
-
-    // Always read raw text for debugging
-    const raw = await proxyResponse.text();
-
-    console.log("=== Forminit Proxy Debug ===");
-    console.log("Status:", proxyResponse.status);
-    console.log("Headers:", Object.fromEntries(proxyResponse.headers.entries()));
-    console.log("Body:", raw);
-
-    // Return JSON no matter what
-    let json: any;
+    
+    // Clone the response so we can read it
+    const clonedResponse = proxyResponse.clone();
+    const text = await clonedResponse.text();
+    
+    console.log("Forminit Response Status:", proxyResponse.status);
+    console.log("Forminit Response Body:", text);
+    
+    // Try to parse as JSON
+    let responseData;
     try {
-      json = JSON.parse(raw);
-    } catch {
-      json = { error: "Non-JSON response received", raw };
+      responseData = JSON.parse(text);
+    } catch (e) {
+      console.error("Failed to parse JSON:", text);
+      return NextResponse.json(
+        { error: "Invalid response from Forminit", details: text },
+        { status: 500 }
+      );
     }
-
-    return NextResponse.json(json, { status: proxyResponse.status });
+    
+    // Return the parsed response with proper headers
+    return NextResponse.json(responseData, {
+      status: proxyResponse.status,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
   } catch (err: any) {
-    console.error("Forminit POST error:", err);
+    console.error("Forminit proxy error:", err);
     return NextResponse.json(
-      { error: err.message || "Forminit request failed" },
+      { error: err.message || "Failed to submit form" },
       { status: 500 }
     );
   }
