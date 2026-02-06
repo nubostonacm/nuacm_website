@@ -5,7 +5,7 @@ export default function HackathonSection() {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
 
-  const FORM_ID = '5c3az6ly4ga'; // Define it here
+  const FORM_ID = '5c3az6ly4ga';
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -15,7 +15,6 @@ export default function HackathonSection() {
     const form = e.currentTarget;
     const formData = Object.fromEntries(new FormData(form).entries());
 
-    // DON'T include formId in the fields
     const fields = {
       'fi-sender-email': formData['fi-sender-email'] || '',
       'fi-sender-firstName': formData['fi-sender-firstName'] || '',
@@ -25,7 +24,6 @@ export default function HackathonSection() {
       'fi-select-strength': formData['fi-select-strength'] || '',
     };
 
-    // Send formId separately
     const payload = {
       formId: FORM_ID,
       fields: fields,
@@ -42,8 +40,30 @@ export default function HackathonSection() {
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
-      console.log('Response:', result);
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
+      // Handle empty response
+      const contentType = response.headers.get('content-type');
+      let result;
+      
+      if (contentType && contentType.includes('application/json')) {
+        const text = await response.text();
+        if (text && text.trim().length > 0) {
+          result = JSON.parse(text);
+        } else {
+          // Empty response but successful
+          result = response.ok 
+            ? { data: { success: true }, error: null }
+            : { data: null, error: { message: 'Empty response from server' } };
+        }
+      } else {
+        result = response.ok 
+          ? { data: { success: true }, error: null }
+          : { data: null, error: { message: 'Invalid response from server' } };
+      }
+
+      console.log('Parsed result:', result);
 
       if (result.error) {
         setStatus('error');

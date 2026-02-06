@@ -43,19 +43,45 @@ export async function POST(req: NextRequest) {
     });
 
     console.log("Forminit response status:", forminitResponse.status);
+    console.log("Forminit response headers:", Object.fromEntries(forminitResponse.headers.entries()));
     
     const responseText = await forminitResponse.text();
     console.log("Forminit response body:", responseText);
+    console.log("Response length:", responseText.length);
 
+    // Handle successful submission (even if response is empty)
     if (forminitResponse.ok) {
+      // Parse JSON if response has content, otherwise return success
+      let responseData = { success: true };
+      
+      if (responseText && responseText.trim().length > 0) {
+        try {
+          responseData = JSON.parse(responseText);
+        } catch (parseError) {
+          console.log("Response is not JSON, treating as success");
+        }
+      }
+      
       return NextResponse.json({
-        data: { success: true },
+        data: responseData,
         error: null,
       });
     } else {
+      // Handle error responses
+      let errorMessage = "Submission failed";
+      
+      if (responseText && responseText.trim().length > 0) {
+        try {
+          const errorData = JSON.parse(responseText);
+          errorMessage = errorData.message || errorMessage;
+        } catch (parseError) {
+          errorMessage = responseText;
+        }
+      }
+      
       return NextResponse.json({
         data: null,
-        error: { message: responseText || "Submission failed" },
+        error: { message: errorMessage },
       }, { status: forminitResponse.status });
     }
 
