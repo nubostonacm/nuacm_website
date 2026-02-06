@@ -1,37 +1,45 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { Forminit } from 'forminit';
 
 export default function HackathonSection() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
 
-  // Use the proxy API route
-  const forminit = new Forminit({
-    proxyUrl: `${typeof window !== 'undefined' ? window.location.origin : ''}/api/forminit`,
-  });
+  // Ensure absolute URL so proxy works in Vercel
+  const proxyUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}/api/forminit`
+      : '/api/forminit';
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const forminit = new Forminit({ proxyUrl });
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log('handleSubmit called'); // Debug log
     setStatus('loading');
     setError(null);
 
     const form = e.currentTarget;
-    const formData = new FormData(form);
+
+    // Convert FormData to plain object for debugging
+    const formData = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+    console.log('Submitting form data:', formData);
 
     try {
-      const { data, error: submitError } = await forminit.submit('5c3az6ly4ga', formData);
+      const { data, error: submitError } = await forminit.submit(
+        '5c3az6ly4ga', // your Forminit form ID
+        formData
+      );
+
+      console.log('Forminit response:', { data, submitError });
 
       if (submitError) {
-        console.error('Forminit submit error:', submitError);
         setStatus('error');
         setError(submitError.message);
         return;
       }
 
-      console.log('Forminit response data:', data); // Debug log
       setStatus('success');
       form.reset();
     } catch (err: any) {
@@ -42,13 +50,10 @@ export default function HackathonSection() {
   }
 
   return (
-    <section
-      id="hackathon"
-      className="min-h-screen flex items-center justify-center bg-celestial-blue py-20"
-    >
+    <section className="min-h-screen flex items-center justify-center bg-celestial-blue py-20">
       <div className="bg-gunmetal bg-opacity-50 rounded-xl p-12 max-w-3xl text-center flex flex-col items-center gap-6">
         <h2 className="text-4xl font-bold text-gunmetal mb-2">
-          NUACM Hackathon — March 14–15
+          NUA Hackathon — March 14–15
         </h2>
         <p className="text-lg text-white leading-relaxed">
           Build something amazing in 24 hours. Meet students across disciplines,
@@ -60,14 +65,12 @@ export default function HackathonSection() {
           <input type="text" name="fi-sender-lastName" placeholder="Last Name" className="input" required />
           <input type="email" name="fi-sender-email" placeholder="Email" className="input" required />
           <input type="text" name="fi-text-school" placeholder="School" className="input" required />
-
           <select name="fi-select-strength" className="input" required>
             <option value="">Select Strength</option>
             <option value="Backend">Backend</option>
             <option value="Frontend">Frontend</option>
             <option value="ML">ML</option>
           </select>
-
           <textarea name="fi-text-questions" placeholder="Any questions?" className="input" />
 
           {status === 'error' && <p className="text-red-500">{error}</p>}
