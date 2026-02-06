@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import { Forminit } from 'forminit';
 
 export default function HackathonSection() {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState(null);
 
-  // Ensure absolute URL so proxy works in Vercel
+  // Absolute proxy URL ensures it works in Vercel
   const proxyUrl =
     typeof window !== 'undefined'
       ? `${window.location.origin}/api/forminit`
@@ -15,15 +15,13 @@ export default function HackathonSection() {
 
   const forminit = new Forminit({ proxyUrl });
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setStatus('loading');
     setError(null);
 
     const form = e.currentTarget;
-
-    // Convert FormData to plain object for debugging
-    const formData = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+    const formData = Object.fromEntries(new FormData(form).entries());
     console.log('Submitting form data:', formData);
 
     try {
@@ -42,7 +40,7 @@ export default function HackathonSection() {
 
       setStatus('success');
       form.reset();
-    } catch (err: any) {
+    } catch (err) {
       console.error('Form submission failed:', err);
       setStatus('error');
       setError(err.message || 'Unknown error');

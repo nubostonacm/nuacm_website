@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/hackathon/page.tsx"  ],
+, "src/app/hackathon/page.js"  ],
   "exclude": [
     "node_modules"
   ]
