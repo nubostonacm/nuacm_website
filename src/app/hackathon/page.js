@@ -3,84 +3,74 @@ import { useState } from 'react';
 
 export default function HackathonSection() {
   const [status, setStatus] = useState('idle');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   const FORM_ID = '5c3az6ly4ga';
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
+    console.log('🔵 Form submit triggered');
     e.preventDefault();
+    console.log('🔵 Default prevented');
+    
     setStatus('loading');
-    setError(null);
+    setError('');
 
-    const form = e.currentTarget;
-    const formData = Object.fromEntries(new FormData(form).entries());
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
 
+    // Build the fields object
     const fields = {
-      'fi-sender-email': formData['fi-sender-email'] || '',
-      'fi-sender-firstName': formData['fi-sender-firstName'] || '',
-      'fi-sender-lastName': formData['fi-sender-lastName'] || '',
-      'fi-text-school': formData['fi-text-school'] || '',
-      'fi-text-questions': formData['fi-text-questions'] || '',
-      'fi-select-strength': formData['fi-select-strength'] || '',
+      'fi-sender-firstName': formData.get('fi-sender-firstName'),
+      'fi-sender-lastName': formData.get('fi-sender-lastName'),
+      'fi-sender-email': formData.get('fi-sender-email'),
+      'fi-text-school': formData.get('fi-text-school'),
+      'fi-select-strength': formData.get('fi-select-strength'),
+      'fi-text-questions': formData.get('fi-text-questions') || '',
     };
+
+    console.log('🔵 Form fields collected:', fields);
 
     const payload = {
       formId: FORM_ID,
       fields: fields,
     };
 
-    console.log('Submitting:', payload);
+    console.log('🔵 Payload to send:', payload);
+    console.log('🔵 Calling /api/forminit...');
 
-    try {
-      const response = await fetch('/api/forminit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+    fetch('/api/forminit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(response => {
+        console.log('🟢 Response received, status:', response.status);
+        console.log('🟢 Response ok:', response.ok);
+        return response.json();
+      })
+      .then(result => {
+        console.log('🟢 Response data:', result);
 
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
-
-      // Handle empty response
-      const contentType = response.headers.get('content-type');
-      let result;
-      
-      if (contentType && contentType.includes('application/json')) {
-        const text = await response.text();
-        if (text && text.trim().length > 0) {
-          result = JSON.parse(text);
-        } else {
-          // Empty response but successful
-          result = response.ok 
-            ? { data: { success: true }, error: null }
-            : { data: null, error: { message: 'Empty response from server' } };
+        if (result.error) {
+          console.log('🔴 Error in response:', result.error);
+          setStatus('idle');
+          setError(result.error);
+          return;
         }
-      } else {
-        result = response.ok 
-          ? { data: { success: true }, error: null }
-          : { data: null, error: { message: 'Invalid response from server' } };
-      }
 
-      console.log('Parsed result:', result);
-
-      if (result.error) {
-        setStatus('error');
-        setError(result.error.message || 'Submission failed');
-        return;
-      }
-
-      setStatus('success');
-      form.reset();
-      
-      setTimeout(() => setStatus('idle'), 5000);
-      
-    } catch (err) {
-      console.error('Submission error:', err);
-      setStatus('error');
-      setError(err.message || 'An unexpected error occurred');
-    }
+        console.log('✅ SUCCESS!');
+        setStatus('success');
+        formElement.reset();
+        
+        setTimeout(() => setStatus('idle'), 5000);
+      })
+      .catch(err => {
+        console.error('🔴 Fetch error:', err);
+        setStatus('idle');
+        setError('Network error: ' + err.message);
+      });
   }
 
   return (
@@ -136,7 +126,7 @@ export default function HackathonSection() {
             rows={3}
           />
 
-          {status === 'error' && (
+          {error && (
             <p className="text-red-400 bg-red-900/20 p-3 rounded">
               {error}
             </p>

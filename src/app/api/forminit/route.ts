@@ -2,72 +2,82 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  console.log("=== Forminit API Route Hit ===");
+  console.log("=== Forminit API Route Called ===");
   
   try {
     const body = await req.json();
-    console.log("Body received:", JSON.stringify(body, null, 2));
+    console.log("Request body:", JSON.stringify(body, null, 2));
     
-    const apiKey = process.env.FORMINIT_API_KEY;
-    
-    if (!apiKey) {
-      console.error("FORMINIT_API_KEY not found");
-      return NextResponse.json(
-        { data: null, error: { message: "API key not configured" } },
-        { status: 500 }
-      );
-    }
-
     const { formId, fields } = body;
     
-    if (!formId) {
+    if (!formId || !fields) {
       return NextResponse.json(
-        { data: null, error: { message: "Form ID missing" } },
+        { error: "Missing form ID or fields" },
         { status: 400 }
       );
     }
 
-    console.log("Calling Forminit API for form:", formId);
+    console.log("Form ID:", formId);
+    console.log("Fields:", JSON.stringify(fields, null, 2));
 
-    const forminitUrl = `https://api.forminit.com/api/v1/forms/${formId}/submissions`;
-
-    const forminitResponse = await fetch(forminitUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(fields),
+    // Create FormData exactly like a browser would
+    const formData = new URLSearchParams();
+    Object.entries(fields).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, String(value));
+      }
     });
 
-    console.log("Forminit response status:", forminitResponse.status);
-    
-    const responseText = await forminitResponse.text();
-    console.log("Forminit response text:", responseText);
+    console.log("FormData string:", formData.toString());
 
-    if (forminitResponse.ok) {
-      let data = { success: true };
-      
-      if (responseText && responseText.trim()) {
-        try {
-          data = JSON.parse(responseText);
-        } catch (e) {
-          console.log("Response not JSON, treating as success");
-        }
-      }
-      
-      return NextResponse.json({ data, error: null });
-    } else {
+    const forminitUrl = `https://forminit.com/f/${formId}`;
+    console.log("Posting to:", forminitUrl);
+
+    // Submit WITHOUT any authorization headers - just like a regular form
+    const response = await fetch(forminitUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        // Mimic browser headers
+        'User-Agent': 'Mozilla/5.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+      body: formData.toString(),
+      redirect: 'manual',
+    });
+
+    console.log("Response status:", response.status);
+    console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+
+    const responseText = await response.text();
+    console.log("Response body (first 300 chars):", responseText.substring(0, 300));
+
+    // 200, 302, 303 are all success
+    if (response.status === 200 || response.status === 302 || response.status === 303) {
+      console.log("✅ SUCCESS - Form submitted");
+      return NextResponse.json({ success: true });
+    }
+
+    // 401 means authentication issue - but public forms shouldn't need auth
+    if (response.status === 401) {
+      console.error("❌ 401 Unauthorized - form might require authentication or be private");
       return NextResponse.json(
-        { data: null, error: { message: responseText || "Failed" } },
-        { status: forminitResponse.status }
+        { error: "Form submission not authorized. Is your form public?" },
+        { status: 401 }
       );
     }
 
-  } catch (err: any) {
-    console.error("Route error:", err);
+    console.error("❌ Unexpected status:", response.status);
     return NextResponse.json(
-      { data: null, error: { message: err.message } },
+      { error: `Unexpected response: ${response.status}` },
+      { status: response.status }
+    );
+
+  } catch (err: any) {
+    console.error("❌ API route error:", err);
+    console.error("Error stack:", err.stack);
+    return NextResponse.json(
+      { error: err.message || "Internal server error" },
       { status: 500 }
     );
   }
