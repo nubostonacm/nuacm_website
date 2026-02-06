@@ -1,6 +1,4 @@
-// src/app/api/forminit/route.ts
-import { createForminitProxy } from 'forminit/next';
-import { NextRequest } from 'next/server';
+import { createForminitProxy } from "forminit/next";
 
 const apiKey = process.env.FORMINIT_API_KEY;
 
@@ -10,5 +8,8 @@ if (!apiKey) {
 
 const proxy = createForminitProxy({
   apiKey,
-});
+}) as (req: Request) => Promise<Response>;
 
+export async function POST(req: Request): Promise<Response> {
+  return proxy(req);
+}
