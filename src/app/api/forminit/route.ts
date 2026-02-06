@@ -8,7 +8,7 @@ if (!apiKey) {
 
 const proxy = createForminitProxy({
   apiKey,
-}) as (req: Request) => Promise<Response>;
+}) as unknown as (req: Request) => Promise<Response>;
 
 export async function POST(req: Request): Promise<Response> {
   return proxy(req);
