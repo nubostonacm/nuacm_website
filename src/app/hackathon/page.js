@@ -8,14 +8,14 @@ export default function HackathonSection() {
   const [error, setError] = useState(null);
   const forminit = new Forminit({ proxyUrl: '/api/forminit' });
 
-  async function handleSubmit(e) { // <-- remove ": React.FormEvent<HTMLFormElement>"
+  async function handleSubmit(e) {
     e.preventDefault();
     setStatus('loading');
     setError(null);
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const { data, error: submitError } = await forminit.submit('oitj3mgx4iv', formData);
+    const { data, error: submitError } = await forminit.submit('5c3az6ly4ga', formData);
 
     if (submitError) {
       setStatus('error');
