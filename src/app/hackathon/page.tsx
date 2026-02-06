@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { Forminit } from 'forminit';
 
 export default function HackathonSection() {
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
 
-  // Absolute URL ensures it works on Vercel preview/production
+  // Use the proxy API route
   const forminit = new Forminit({
     proxyUrl: `${typeof window !== 'undefined' ? window.location.origin : ''}/api/forminit`,
   });
@@ -25,12 +25,13 @@ export default function HackathonSection() {
       const { data, error: submitError } = await forminit.submit('5c3az6ly4ga', formData);
 
       if (submitError) {
+        console.error('Forminit submit error:', submitError);
         setStatus('error');
         setError(submitError.message);
         return;
       }
 
-      console.log('Forminit response:', data); // Debug log
+      console.log('Forminit response data:', data); // Debug log
       setStatus('success');
       form.reset();
     } catch (err: any) {
