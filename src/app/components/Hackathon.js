@@ -6,7 +6,7 @@ const HackathonSection = () => {
     >
       <div className="bg-gunmetal bg-opacity-50 rounded-xl p-12 max-w-3xl text-center flex flex-col items-center gap-6">
         <h2 className="text-4xl font-bold text-gunmetal mb-2">
-          NUA Hackathon — March 14–15
+          NUACM Hackathon — March 14–15
         </h2>
         <p className="text-lg text-white leading-relaxed">
           Build something amazing in 24 hours. Meet students across disciplines,

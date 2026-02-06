@@ -7,18 +7,14 @@ export default function HackathonSection() {
 
   const FORM_ID = '5c3az6ly4ga';
 
-  function handleSubmit(e) {
-    console.log('🔵 Form submit triggered');
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log('🔵 Default prevented');
-    
     setStatus('loading');
     setError('');
 
     const formElement = e.currentTarget;
     const formData = new FormData(formElement);
 
-    // Build the fields object
     const fields = {
       'fi-sender-firstName': formData.get('fi-sender-firstName'),
       'fi-sender-lastName': formData.get('fi-sender-lastName'),
@@ -28,56 +24,41 @@ export default function HackathonSection() {
       'fi-text-questions': formData.get('fi-text-questions') || '',
     };
 
-    console.log('🔵 Form fields collected:', fields);
-
-    const payload = {
-      formId: FORM_ID,
-      fields: fields,
-    };
-
-    console.log('🔵 Payload to send:', payload);
-    console.log('🔵 Calling /api/forminit...');
-
-    fetch('/api/forminit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
-      .then(response => {
-        console.log('🟢 Response received, status:', response.status);
-        console.log('🟢 Response ok:', response.ok);
-        return response.json();
-      })
-      .then(result => {
-        console.log('🟢 Response data:', result);
-
-        if (result.error) {
-          console.log('🔴 Error in response:', result.error);
-          setStatus('idle');
-          setError(result.error);
-          return;
-        }
-
-        console.log('✅ SUCCESS!');
-        setStatus('success');
-        formElement.reset();
-        
-        setTimeout(() => setStatus('idle'), 5000);
-      })
-      .catch(err => {
-        console.error('🔴 Fetch error:', err);
-        setStatus('idle');
-        setError('Network error: ' + err.message);
+    try {
+      const response = await fetch('/api/forminit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formId: FORM_ID,
+          fields: fields,
+        }),
       });
+
+      const result = await response.json();
+
+      if (!response.ok || result.error) {
+        setStatus('idle');
+        setError(result.error || 'Submission failed');
+        return;
+      }
+
+      setStatus('success');
+      formElement.reset();
+      setTimeout(() => setStatus('idle'), 5000);
+
+    } catch (err) {
+      setStatus('idle');
+      setError('An unexpected error occurred');
+    }
   }
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-celestial-blue py-20">
       <div className="bg-gunmetal bg-opacity-50 rounded-xl p-12 max-w-3xl text-center flex flex-col items-center gap-6">
         <h2 className="text-4xl font-bold text-white mb-2">
-          NUA Hackathon — March 14–15
+          NUACM Hackathon — March 14–15
         </h2>
         <p className="text-lg text-white leading-relaxed">
           Build something amazing in 24 hours. Meet students across disciplines,
