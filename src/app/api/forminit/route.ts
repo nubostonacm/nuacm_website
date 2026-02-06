@@ -1,4 +1,3 @@
-import { createForminitProxy } from "forminit/next";
 import { NextRequest, NextResponse } from "next/server";
 
 const apiKey = process.env.FORMINIT_API_KEY;
@@ -7,43 +6,67 @@ if (!apiKey) {
   throw new Error("FORMINIT_API_KEY is not set");
 }
 
-const forminitProxy = createForminitProxy({ apiKey });
-
 export async function POST(req: NextRequest) {
   try {
-    const proxyResponse = await forminitProxy.POST(req);
-    
-    // Clone the response so we can read it
-    const clonedResponse = proxyResponse.clone();
-    const text = await clonedResponse.text();
-    
-    console.log("Forminit Response Status:", proxyResponse.status);
-    console.log("Forminit Response Body:", text);
-    
-    // Try to parse as JSON
+    const body = await req.json();
+    console.log("Incoming request body:", body);
+
+    // Extract form ID and fields from the request
+    const { formId, ...fields } = body;
+
+    // Make direct request to Forminit API
+    const forminitResponse = await fetch(
+      `https://api.forminit.com/api/v1/forms/${formId}/submissions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(fields),
+      }
+    );
+
+    const responseText = await forminitResponse.text();
+    console.log("Forminit raw response:", responseText);
+    console.log("Forminit status:", forminitResponse.status);
+
+    // Parse the response
     let responseData;
     try {
-      responseData = JSON.parse(text);
+      responseData = JSON.parse(responseText);
     } catch (e) {
-      console.error("Failed to parse JSON:", text);
-      return NextResponse.json(
-        { error: "Invalid response from Forminit", details: text },
-        { status: 500 }
-      );
-    }
-    
-    // Return the parsed response with proper headers
-    return NextResponse.json(responseData, {
-      status: proxyResponse.status,
-      headers: {
-        'Content-Type': 'application/json',
+      // If it's not JSON, treat it as success if status is 2xx
+      if (forminitResponse.ok) {
+        responseData = { success: true };
+      } else {
+        return NextResponse.json(
+          { error: "Invalid response from Forminit", details: responseText },
+          { status: 500 }
+        );
       }
-    });
-    
+    }
+
+    // Return success response in the format Forminit client expects
+    if (forminitResponse.ok) {
+      return NextResponse.json({
+        data: responseData,
+        error: null,
+      });
+    } else {
+      return NextResponse.json({
+        data: null,
+        error: { message: responseData.message || "Submission failed" },
+      });
+    }
+
   } catch (err: any) {
     console.error("Forminit proxy error:", err);
     return NextResponse.json(
-      { error: err.message || "Failed to submit form" },
+      {
+        data: null,
+        error: { message: err.message || "Failed to submit form" },
+      },
       { status: 500 }
     );
   }

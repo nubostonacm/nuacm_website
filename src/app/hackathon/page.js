@@ -1,17 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { Forminit } from 'forminit';
 
 export default function HackathonSection() {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
-
-  const proxyUrl =
-    typeof window !== 'undefined'
-      ? `${window.location.origin}/api/forminit`
-      : '/api/forminit';
-
-  const forminit = new Forminit({ proxyUrl });
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,6 +14,7 @@ export default function HackathonSection() {
     const formData = Object.fromEntries(new FormData(form).entries());
 
     const payload = {
+      formId: '5c3az6ly4ga',
       'fi-sender-email': formData['fi-sender-email'] || '',
       'fi-sender-firstName': formData['fi-sender-firstName'] || '',
       'fi-sender-lastName': formData['fi-sender-lastName'] || '',
@@ -33,24 +26,26 @@ export default function HackathonSection() {
     console.log('Submitting payload:', payload);
 
     try {
-      const { data, error: submitError } = await forminit.submit(
-        '5c3az6ly4ga',
-        payload
-      );
+      const response = await fetch('/api/forminit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-      console.log('Response:', { data, error: submitError });
+      const result = await response.json();
+      console.log('Response:', result);
 
-      if (submitError) {
-        console.error('Forminit error:', submitError);
+      if (result.error) {
         setStatus('error');
-        setError(submitError.message || 'Submission failed');
+        setError(result.error.message || 'Submission failed');
         return;
       }
 
       setStatus('success');
       form.reset();
       
-      // Auto-reset status after 5 seconds
       setTimeout(() => setStatus('idle'), 5000);
       
     } catch (err) {
