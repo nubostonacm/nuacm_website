@@ -58,7 +58,7 @@ export default function HackathonSection() {
     <section className="min-h-screen flex items-center justify-center bg-celestial-blue py-20">
       <div className="bg-gunmetal bg-opacity-50 rounded-xl p-12 max-w-3xl text-center flex flex-col items-center gap-6">
         <h2 className="text-4xl font-bold text-white mb-2">
-          NUACM Hackathon — March 14–15
+          NUACM Hackathon — mid-March
         </h2>
         <p className="text-lg text-white leading-relaxed">
           Build something amazing in 24 hours. Meet students across disciplines,
@@ -99,6 +99,11 @@ export default function HackathonSection() {
             <option value="Backend">Backend</option>
             <option value="Frontend">Frontend</option>
             <option value="ML">ML</option>
+          </select>
+          <select name="fi-select-track" className="input" required>
+          <option value="">Which Track?</option>
+          <option value="Mental Health">Mental Health</option>
+          <option value="Physical Health">Physical Health</option>
           </select>
           <textarea
             name="fi-text-questions"
