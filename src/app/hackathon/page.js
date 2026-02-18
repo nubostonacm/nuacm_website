@@ -83,7 +83,7 @@ export default function HackathonSection() {
           <input
             type="email"
             name="fi-sender-email"
-            placeholder="Email"
+            placeholder="School Email"
             className="input"
             required
           />
