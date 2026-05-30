@@ -131,7 +131,7 @@ export default function ApplyPage() {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    formData.append("access_key", process.env.APPLY_PUBLIC_WEB3FORMS_KEY ?? "");
+    formData.append("access_key", process.env.NEXT_PUBLIC_APPLY_WEB3FORMS_KEY ?? "");
     formData.append("subject", "ACM @ Northeastern — Software Team Application");
     formData.append("roles", selectedRoles.join(", "));
 
