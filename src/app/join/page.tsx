@@ -25,7 +25,7 @@ export default function JoinPage() {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    formData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? "");
+    formData.append("access_key", process.env.JOIN_PUBLIC_WEB3FORMS_KEY ?? "");
     formData.append("subject", "ACM @ Northeastern — Interest Form");
 
     try {
