@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
 const fadeUp = {
@@ -17,7 +18,7 @@ const pillars = [
     desc: "Workshops and speaker sessions from industry leaders across software, research, and design.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
       </svg>
     ),
   },
@@ -54,15 +55,15 @@ const pillars = [
 ];
 
 const eboard = [
-  { initials: "EB", name: "Ekam Bhatia",       title: "Chair",                          img: "/eboard/ekam.jpg"    },
-  { initials: "SS", name: "Smyan Sengupta",     title: "Vice Chair",                     img: "/eboard/smyan.jpg"   },
-  { initials: "HB", name: "Hannah Bang",        title: "Director of Startup Operations", img: "/eboard/hannah.jpg"  },
-  { initials: "HJ", name: "Heidi Jiang",        title: "Director of Research Operations",img: "/eboard/heidi.jpg"   },
-  { initials: "MU", name: "Max Uhlberg",        title: "Treasurer",                      img: "/eboard/max.jpg"     },
-  { initials: "MA", name: "Mehr Anand",         title: "Director of Growth",             img: "/eboard/mehr.jpg"    },
-  { initials: "MS", name: "Matthew Shi",        title: "Director of Growth",             img: "/eboard/matthew.jpg" },
-  { initials: "AY", name: "Alison Ye",          title: "Head of Social Media",           img: "/eboard/alison.jpg"  },
-  { initials: "SS2",name: "Sandra Srinivasan",  title: "Head of Operational Software",   img: "/eboard/sandra.jpg"  },
+  { initials: "EB",  name: "Ekam Bhatia",       title: "Chair",                          img: "/eboard/ekam.jpg"    },
+  { initials: "SS",  name: "Smyan Sengupta",     title: "Vice Chair",                     img: "/eboard/smyan.jpg"   },
+  { initials: "HB",  name: "Hannah Bang",        title: "Director of Startup Operations", img: "/eboard/hannah.jpg"  },
+  { initials: "HJ",  name: "Heidi Jiang",        title: "Director of Research Operations",img: "/eboard/heidi.jpg"   },
+  { initials: "MU",  name: "Max Uhlberg",        title: "Treasurer",                      img: "/eboard/max.jpg"     },
+  { initials: "MA",  name: "Mehr Anand",         title: "Director of Growth",             img: "/eboard/mehr.jpg"    },
+  { initials: "MS",  name: "Matthew Shi",        title: "Director of Growth",             img: "/eboard/matthew.jpg" },
+  { initials: "AY",  name: "Alison Ye",          title: "Head of Social Media",           img: "/eboard/alison.jpg"  },
+  { initials: "SS2", name: "Sandra Srinivasan",  title: "Head of Operational Software",   img: "/eboard/sandra.jpg"  },
 ];
 
 export default function AboutPage() {
@@ -72,7 +73,10 @@ export default function AboutPage() {
       {/* ── HERO ── */}
       <section className="relative min-h-[58vh] flex flex-col justify-center px-6 lg:px-16 pt-32 pb-16 overflow-hidden">
         <div className="absolute inset-0 grid-bg pointer-events-none" />
-        <div className="absolute pointer-events-none" style={{ width: 600, height: 400, background: "radial-gradient(ellipse, rgba(0,85,165,0.2) 0%, transparent 70%)", top: -80, right: -100, borderRadius: "50%" }} />
+        <div
+          className="absolute pointer-events-none"
+          style={{ width: 600, height: 400, background: "radial-gradient(ellipse, rgba(0,85,165,0.2) 0%, transparent 70%)", top: -80, right: -100, borderRadius: "50%" }}
+        />
         <div className="relative max-w-5xl">
           <div className="flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-acm-blue-sky" />
@@ -106,7 +110,12 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <motion.div custom={1} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
+          <motion.div
+            custom={1}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeUp}
             className="grid grid-cols-2 gap-px bg-acm-border border border-acm-border rounded overflow-hidden"
           >
             {[
@@ -127,7 +136,13 @@ export default function AboutPage() {
       {/* ── CHAPTER ── */}
       <section className="px-6 lg:px-16 py-20 bg-acm-navy border-t border-acm-border">
         <div className="max-w-7xl mx-auto">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-12 max-w-2xl">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="mb-12 max-w-2xl"
+          >
             <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-4">Our chapter</span>
             <h2 className="font-display font-bold text-3xl lg:text-4xl tracking-tight mb-5">
               ACM <span className="text-acm-blue-sky">@</span> Northeastern
@@ -163,7 +178,13 @@ export default function AboutPage() {
       {/* ── E-BOARD PHOTO GRID ── */}
       <section className="px-6 lg:px-16 py-20 bg-acm-dark border-t border-acm-border">
         <div className="max-w-7xl mx-auto">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-10">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="mb-10"
+          >
             <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">Executive board</span>
             <h2 className="font-display font-bold text-3xl lg:text-4xl tracking-tight mb-3">
               Meet the <span className="text-acm-blue-sky italic">Team</span>
@@ -187,31 +208,52 @@ export default function AboutPage() {
                 variants={fadeUp}
                 className="bg-acm-dark hover:bg-acm-surface transition-colors group overflow-hidden flex flex-col"
               >
-                {/* Square photo */}
+                {/* Square photo area */}
                 <div
                   className="relative w-full overflow-hidden bg-acm-surface"
                   style={{ aspectRatio: "1/1" }}
                 >
-                  <img
-                    src={member.img}
-                    alt={member.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-all duration-300"
-                    style={{ filter: "grayscale(15%)" }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)";
-                      (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.filter = "grayscale(15%)";
-                      (e.currentTarget as HTMLImageElement).style.transform = "scale(1)";
-                    }}
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                  {/* Initials placeholder */}
-                  <div className="absolute inset-0 flex items-center justify-center font-display font-extrabold text-4xl text-acm-blue-sky opacity-30 group-hover:opacity-50 transition-opacity select-none pointer-events-none">
+                  {/* Initials placeholder — sits behind photo, hidden once image loads */}
+                  <div
+                    id={`placeholder-${i}`}
+                    className="absolute inset-0 flex items-center justify-center font-display font-extrabold text-4xl text-acm-blue-sky opacity-30 select-none pointer-events-none z-0"
+                  >
                     {member.initials.replace("2", "")}
+                  </div>
+
+                  {/* Photo using Next.js Image for proper optimization */}
+                  <div
+                    id={`photo-${i}`}
+                    className="absolute inset-0 z-10 opacity-0 transition-opacity duration-300"
+                  >
+                    <Image
+                      src={member.img}
+                      alt={member.name}
+                      fill
+                      sizes="200px"
+                      className="object-cover transition-all duration-300"
+                      style={{ filter: "grayscale(15%)" }}
+                      onLoad={() => {
+                        // Show photo, hide initials
+                        const photo = document.getElementById(`photo-${i}`);
+                        const placeholder = document.getElementById(`placeholder-${i}`);
+                        if (photo) photo.style.opacity = "1";
+                        if (placeholder) placeholder.style.display = "none";
+                      }}
+                      onError={() => {
+                        // Hide photo wrapper, keep initials
+                        const photo = document.getElementById(`photo-${i}`);
+                        if (photo) photo.style.display = "none";
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)";
+                        (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.filter = "grayscale(15%)";
+                        (e.currentTarget as HTMLImageElement).style.transform = "scale(1)";
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -232,7 +274,13 @@ export default function AboutPage() {
 
       {/* ── CTA ── */}
       <section className="px-6 lg:px-16 py-20 border-t border-acm-border text-center">
-        <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="max-w-xl mx-auto">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="max-w-xl mx-auto"
+        >
           <h2 className="font-display font-bold text-3xl tracking-tight mb-4">Want to work with us?</h2>
           <p className="text-acm-muted mb-8 leading-relaxed">
             Check out the software division or reach out directly to get involved.
