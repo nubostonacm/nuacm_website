@@ -15,7 +15,7 @@ export interface SiteAnnouncement {
 // CURRENT ANNOUNCEMENT
 export const announcement: SiteAnnouncement = {
   type: "applications",
-  active: false,
+  active: true,
 
   headline: "Software Team Applications Are Open",
   subline:

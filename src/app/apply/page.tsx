@@ -379,21 +379,16 @@ export default function ApplyPage() {
                 <SectionHeader num="02" title="Credentials" />
 
                 <Field
-                  label="Resume"
+                  label="Resume URL"
                   required
-                  hint="Tailor it to the role — this is not your co-op or internship resume. PDF or Word doc, max 5MB."
+                  hint="Tailor it to the role — this is not your co-op or internship resume."
                 >
                   <input
-                    type="file"
+                    type="url"
                     name="resume"
-                    accept=".pdf,.doc,.docx"
+                    placeholder="https://drive.google.com/..."
                     required
-                    className="w-full bg-acm-surface border border-acm-border text-acm-text px-4 py-3 rounded-sm font-sans text-sm
-                      focus:outline-none focus:border-acm-blue-sky transition-colors duration-200
-                      file:mr-4 file:py-1.5 file:px-4 file:rounded-sm file:border-0
-                      file:font-mono file:text-[10px] file:tracking-widest file:uppercase
-                      file:bg-acm-blue-mid file:text-white hover:file:bg-acm-blue
-                      file:transition-colors file:duration-200 file:cursor-pointer"
+                    className={baseInput}
                   />
                 </Field>
 
