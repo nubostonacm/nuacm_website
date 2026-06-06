@@ -616,18 +616,6 @@ export default function ApplyPage() {
               {/* ── 05 GENERAL QUESTIONS ── */}
               <div className="border border-acm-border bg-acm-dark p-6 rounded-sm space-y-5">
                 <SectionHeader num="05" title="General Questions" />
-
-                <Field
-                  label="Why do you want to join ACM?"
-                  required
-                >
-                  <WordLimitTextarea
-                    name="whyAcm"
-                    placeholder="Share what draws you to ACM and what you hope to take away..."
-                    required
-                  />
-                </Field>
-
                 <Field
                   label="Startup & Tech Excitement"
                   required
