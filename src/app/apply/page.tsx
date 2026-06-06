@@ -31,6 +31,63 @@ const hearOptions = [
   "Other",
 ];
 
+const collegeOptions = [
+  "Khoury College of Computer Sciences",
+  "College of Engineering",
+  "D'Amore-McKim School of Business",
+  "College of Arts, Media and Design",
+  "Bouvé College of Health Sciences",
+  "College of Social Sciences and Humanities",
+  "College of Science",
+  "School of Law",
+  "Other",
+];
+
+const startups = [
+  {
+    id: "am-collective",
+    name: "AM Collective",
+    subtitle: "LeaseStack & Cursive",
+    url: "https://www.amcollectivecapital.com/",
+    tags: ["Full-Stack", "AI", "SaaS"],
+    description:
+      "An operational holding company building AI-driven ventures. You'd work across two products: LeaseStack (a managed marketing dashboard for real estate operators) and Cursive (a B2B SaaS that enriches website visitors with intent scores and behavioral data).",
+    engineerSkills:
+      "End-to-end product dev with Claude Code, Vercel, Neon; full-stack deployment; API integration.",
+    designerSkills:
+      "Strong UI/UX, mobile interfaces, collaboration with engineers.",
+    bonus: "Background in real estate, operations, or lead generation.",
+  },
+  {
+    id: "team-impact",
+    name: "Team IMPACT",
+    subtitle: "Athlete Community Platform",
+    url: "https://www.teamimpact.org/",
+    tags: ["Nonprofit", "Community", "React Native"],
+    description:
+      "A nonprofit connecting children facing serious illnesses with college sports teams. You'd build a community platform for 200,000+ current and former student athletes to network, find mentorship, and connect with corporate partners.",
+    engineerSkills:
+      "React/React Native, Node.js, Python/Django, PostgreSQL, REST APIs, AWS/GCP/Azure.",
+    designerSkills:
+      "Figma, mobile-first design, component systems, dashboards and profile pages.",
+    bonus: "Background as a student athlete or connection to community-driven orgs.",
+  },
+  {
+    id: "skipit",
+    name: "Skipit",
+    subtitle: "Trigger Identifier",
+    url: "https://www.skipit.tech/",
+    tags: ["Mobile", "Audio", "Social Impact"],
+    description:
+      "A trauma-informed platform helping viewers with PTSD and sensory sensitivities manage distressing content. You'd build a mobile companion app that listens to media audio, identifies what's playing, and instantly surfaces trigger warnings.",
+    engineerSkills:
+      "React Native or Flutter, TypeScript, Firebase/Firestore, REST APIs, mobile development.",
+    designerSkills:
+      "Figma, mobile UI/UX, component systems, WCAG accessibility standards.",
+    bonus: "Experience with audio APIs, fingerprinting, or media technology.",
+  },
+];
+
 // Section header component
 function SectionHeader({ num, title }: { num: string; title: string }) {
   return (
@@ -85,7 +142,7 @@ function WordLimitTextarea({
         placeholder={placeholder}
         required={required}
         rows={rows}
-        maxLength={limit * 7} // rough char limit
+        maxLength={limit * 7}
         onChange={(e) => {
           const words = e.target.value.trim().split(/\s+/).filter(Boolean).length;
           setCount(words);
@@ -107,18 +164,23 @@ export default function ApplyPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [error, setError] = useState("");
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
+  const [selectedStartups, setSelectedStartups] = useState<string[]>([]);
   const [isLead, setIsLead] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
   function toggleRole(role: string) {
-    setSelectedRoles((prev) =>
-      prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]
-    );
     const leadRoles = ["Tech Lead", "Design Lead"];
     const newRoles = selectedRoles.includes(role)
       ? selectedRoles.filter((r) => r !== role)
       : [...selectedRoles, role];
+    setSelectedRoles(newRoles);
     setIsLead(newRoles.some((r) => leadRoles.includes(r)));
+  }
+
+  function toggleStartup(id: string) {
+    setSelectedStartups((prev) =>
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
+    );
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -134,6 +196,7 @@ export default function ApplyPage() {
     formData.append("access_key", process.env.NEXT_PUBLIC_APPLY_WEB3FORMS_KEY ?? "");
     formData.append("subject", "ACM @ Northeastern — Software Team Application");
     formData.append("roles", selectedRoles.join(", "));
+    formData.append("startups", selectedStartups.join(", "));
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
@@ -149,6 +212,7 @@ export default function ApplyPage() {
       setStatus("success");
       (e.target as HTMLFormElement).reset();
       setSelectedRoles([]);
+      setSelectedStartups([]);
       setIsLead(false);
       setAgreed(false);
     } catch {
@@ -165,7 +229,14 @@ export default function ApplyPage() {
         <div className="absolute inset-0 grid-bg pointer-events-none" />
         <div
           className="absolute pointer-events-none"
-          style={{ width: 500, height: 360, background: "radial-gradient(ellipse, rgba(0,85,165,0.2) 0%, transparent 70%)", top: -80, right: -80, borderRadius: "50%" }}
+          style={{
+            width: 500,
+            height: 360,
+            background: "radial-gradient(ellipse, rgba(0,85,165,0.2) 0%, transparent 70%)",
+            top: -80,
+            right: -80,
+            borderRadius: "50%",
+          }}
         />
         <div className="relative max-w-3xl">
           <div className="flex items-center gap-3 mb-6">
@@ -181,14 +252,15 @@ export default function ApplyPage() {
             Software Team <span className="text-stroke italic">Application</span>
           </h1>
           <p className="text-acm-muted text-base leading-relaxed max-w-xl">
-            Apply to join a cross-functional team building real software for a startup this semester. Engineers and designers welcome. All text responses have a 250-word limit.
+            Apply to join a cross-functional team building real software for a startup this semester.
+            Engineers and designers welcome. All text responses have a 250-word limit.
           </p>
         </div>
       </section>
 
       {/* ── FORM ── */}
       <section className="px-6 lg:px-16 pb-24">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl mx-auto">
 
           {status === "success" ? (
             <motion.div
@@ -198,7 +270,13 @@ export default function ApplyPage() {
               className="border border-emerald-500/30 bg-emerald-500/8 p-12 text-center rounded-sm"
             >
               <div className="w-12 h-12 border border-emerald-500/40 flex items-center justify-center mx-auto mb-5">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6 text-emerald-400">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  className="w-6 h-6 text-emerald-400"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
               </div>
@@ -229,27 +307,61 @@ export default function ApplyPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <Field label="First Name" required>
-                    <input type="text" name="firstName" placeholder="First Name" required className={baseInput} />
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="First Name"
+                      required
+                      className={baseInput}
+                    />
                   </Field>
                   <Field label="Last Name" required>
-                    <input type="text" name="lastName" placeholder="Last Name" required className={baseInput} />
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Last Name"
+                      required
+                      className={baseInput}
+                    />
                   </Field>
                 </div>
 
                 <Field label="Pronouns">
-                  <input type="text" name="pronouns" placeholder="e.g. she/her, he/him, they/them" className={baseInput} />
+                  <input
+                    type="text"
+                    name="pronouns"
+                    placeholder="e.g. she/her, he/him, they/them"
+                    className={baseInput}
+                  />
                 </Field>
 
                 <Field label="School Email" required>
-                  <input type="email" name="email" placeholder="yourname@northeastern.edu" required className={baseInput} />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="yourname@northeastern.edu"
+                    required
+                    className={baseInput}
+                  />
                 </Field>
 
-                <Field label="College" required hint='e.g. Khoury College of Computer Sciences'>
-                  <input type="text" name="college" placeholder="Khoury" required className={baseInput} />
+                <Field label="College" required>
+                  <select name="college" required defaultValue="" className={baseInput}>
+                    <option value="" disabled>Select your college</option>
+                    {collegeOptions.map((c) => (
+                      <option key={c} value={c} className="bg-acm-dark">{c}</option>
+                    ))}
+                  </select>
                 </Field>
 
                 <Field label="Major(s) / Minor(s)" required>
-                  <input type="text" name="major" placeholder="e.g. Computer Science, minor in Design" required className={baseInput} />
+                  <input
+                    type="text"
+                    name="major"
+                    placeholder="e.g. Computer Science, minor in Design"
+                    required
+                    className={baseInput}
+                  />
                 </Field>
 
                 <Field label="Year of Study" required>
@@ -267,27 +379,58 @@ export default function ApplyPage() {
                 <SectionHeader num="02" title="Credentials" />
 
                 <Field
-                  label="Resume URL"
+                  label="Resume"
                   required
-                  hint="Tailor it to the role — this is not your co-op or internship resume."
+                  hint="Tailor it to the role — this is not your co-op or internship resume. PDF or Word doc, max 5MB."
                 >
-                  <input type="url" name="resume" placeholder="https://drive.google.com/..." required className={baseInput} />
+                  <input
+                    type="file"
+                    name="resume"
+                    accept=".pdf,.doc,.docx"
+                    required
+                    className="w-full bg-acm-surface border border-acm-border text-acm-text px-4 py-3 rounded-sm font-sans text-sm
+                      focus:outline-none focus:border-acm-blue-sky transition-colors duration-200
+                      file:mr-4 file:py-1.5 file:px-4 file:rounded-sm file:border-0
+                      file:font-mono file:text-[10px] file:tracking-widest file:uppercase
+                      file:bg-acm-blue-mid file:text-white hover:file:bg-acm-blue
+                      file:transition-colors file:duration-200 file:cursor-pointer"
+                  />
                 </Field>
 
                 <Field label="Portfolio URL">
-                  <input type="url" name="portfolio" placeholder="https://yourportfolio.com" className={baseInput} />
+                  <input
+                    type="url"
+                    name="portfolio"
+                    placeholder="https://yourportfolio.com"
+                    className={baseInput}
+                  />
                 </Field>
 
                 <Field label="LinkedIn URL">
-                  <input type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" className={baseInput} />
+                  <input
+                    type="url"
+                    name="linkedin"
+                    placeholder="https://linkedin.com/in/yourname"
+                    className={baseInput}
+                  />
                 </Field>
 
                 <Field label="GitHub URL">
-                  <input type="url" name="github" placeholder="https://github.com/yourname" className={baseInput} />
+                  <input
+                    type="url"
+                    name="github"
+                    placeholder="https://github.com/yourname"
+                    className={baseInput}
+                  />
                 </Field>
 
                 <Field label="Any Other Links">
-                  <input type="text" name="otherLinks" placeholder="Behance, Dribbble, personal site, etc." className={baseInput} />
+                  <input
+                    type="text"
+                    name="otherLinks"
+                    placeholder="Behance, Dribbble, personal site, etc."
+                    className={baseInput}
+                  />
                 </Field>
               </div>
 
@@ -302,7 +445,11 @@ export default function ApplyPage() {
                   />
                 </Field>
 
-                <Field label="Relevant Courses" required hint="What courses have you taken or are about to take? Are you on co-op?">
+                <Field
+                  label="Relevant Courses"
+                  required
+                  hint="What courses have you taken or are about to take? Are you on co-op?"
+                >
                   <WordLimitTextarea
                     name="courses"
                     placeholder="e.g. CS3500 OOD, CS4550 Web Dev, on co-op Spring 2026..."
@@ -332,10 +479,15 @@ export default function ApplyPage() {
                 </Field>
 
                 <Field label="Referral / Additional Detail">
-                  <input type="text" name="hearAboutDetail" placeholder="If referral, who? If other, please specify." className={baseInput} />
+                  <input
+                    type="text"
+                    name="hearAboutDetail"
+                    placeholder="If referral, who? If other, please specify."
+                    className={baseInput}
+                  />
                 </Field>
 
-                {/* Role selection — multi-select pill buttons */}
+                {/* Role selection */}
                 <Field label="Role(s) Applying For" required>
                   <div className="flex flex-wrap gap-2 mt-1">
                     {roleOptions.map((role) => (
@@ -367,15 +519,111 @@ export default function ApplyPage() {
               {/* ── 04 STARTUP INTEREST ── */}
               <div className="border border-acm-border bg-acm-dark p-6 rounded-sm space-y-5">
                 <SectionHeader num="04" title="Startup Interest" />
+                <p className="text-xs text-acm-muted -mt-2 leading-relaxed">
+                  Select the startups you're interested in working with. You'll rank your preferences in the field below.
+                </p>
+
+                <div className="space-y-3">
+                  {startups.map((s) => {
+                    const selected = selectedStartups.includes(s.id);
+                    return (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => toggleStartup(s.id)}
+                        className={`w-full text-left border rounded-sm p-5 transition-all duration-200 ${
+                          selected
+                            ? "border-acm-blue-sky bg-acm-blue-sky/5"
+                            : "border-acm-border bg-acm-black hover:border-acm-blue-sky/50"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-4 mb-3">
+                          <div>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="font-display font-bold text-sm text-acm-text">
+                                {s.name}
+                              </span>
+                              <span className="font-mono text-[10px] text-acm-faint">
+                                — {s.subtitle}
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {s.tags.map((tag) => (
+                                <span
+                                  key={tag}
+                                  className="font-mono text-[9px] tracking-widest uppercase border border-acm-border text-acm-faint px-2 py-0.5 rounded-sm"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          <div
+                            className={`w-5 h-5 flex-shrink-0 mt-0.5 border rounded-sm flex items-center justify-center transition-all duration-200 ${
+                              selected
+                                ? "bg-acm-blue-mid border-acm-blue-mid"
+                                : "border-acm-border"
+                            }`}
+                          >
+                            {selected && (
+                              <svg
+                                viewBox="0 0 12 12"
+                                fill="none"
+                                stroke="white"
+                                strokeWidth={2}
+                                className="w-3 h-3"
+                              >
+                                <path d="M2 6l3 3 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+
+                        <p className="text-xs text-acm-muted leading-relaxed mb-3">
+                          {s.description}
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="bg-acm-surface border border-acm-border rounded-sm px-3 py-2">
+                            <p className="font-mono text-[9px] tracking-widest uppercase text-acm-blue-sky mb-1">
+                              Engineers
+                            </p>
+                            <p className="text-[11px] text-acm-faint leading-relaxed">
+                              {s.engineerSkills}
+                            </p>
+                          </div>
+                          <div className="bg-acm-surface border border-acm-border rounded-sm px-3 py-2">
+                            <p className="font-mono text-[9px] tracking-widest uppercase text-acm-blue-sky mb-1">
+                              Designers
+                            </p>
+                            <p className="text-[11px] text-acm-faint leading-relaxed">
+                              {s.designerSkills}
+                            </p>
+                          </div>
+                        </div>
+
+                        {s.bonus && (
+                          <p className="text-[11px] text-acm-faint mt-2 italic">
+                            ✦ Bonus: {s.bonus}
+                          </p>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {selectedStartups.length === 0 && (
+                  <p className="font-mono text-[9px] text-acm-faint">Select at least one startup.</p>
+                )}
 
                 <Field
-                  label="Startup Preferences"
+                  label="Startup Preference Ranking"
                   required
-                  hint="Rank your top 3 startup choices. For each, include: the startup name, a brief description of their problem space, their tech stack, and why you're interested. Think NUWorks-style — concise and specific."
+                  hint="For each selected startup, briefly explain why you're interested and what you'd bring to the team. Be concise and specific."
                 >
                   <WordLimitTextarea
                     name="startupInterest"
-                    placeholder={`1. Startup Name — Tech stack: React, Node.js. Interested because...\n2. Startup Name — Tech stack: Python, FastAPI. Interested because...\n3. Startup Name — ...`}
+                    placeholder={`1. Startup Name — Interested because...\n2. Startup Name — Interested because...\n3. Startup Name — ...`}
                     required
                     rows={6}
                   />
@@ -453,7 +701,7 @@ export default function ApplyPage() {
                 )}
               </AnimatePresence>
 
-              {/* ── 07 FINAL SECTION ── */}
+              {/* ── FINAL SECTION ── */}
               <div className="border border-acm-border bg-acm-dark p-6 rounded-sm space-y-5">
                 <SectionHeader num={isLead ? "07" : "06"} title="Final Section" />
 
@@ -471,7 +719,14 @@ export default function ApplyPage() {
                     Disclosure &amp; Agreement
                   </p>
                   <p className="text-xs text-acm-muted leading-relaxed mb-4">
-                    By submitting this application, I confirm that I have read and understood the ACM Software Branch role descriptions and responsibilities. I acknowledge the expected time commitment associated with the role I am applying for and understand that participation requires consistent engagement throughout the semester. I also understand that ACM Software teams work directly with external startup clients on real, high-priority projects. As such, professionalism, reliability, and clear communication are expected at all times. I agree to uphold these expectations if selected.
+                    By submitting this application, I confirm that I have read and understood the ACM
+                    Software Branch role descriptions and responsibilities. I acknowledge the expected
+                    time commitment associated with the role I am applying for and understand that
+                    participation requires consistent engagement throughout the semester. I also
+                    understand that ACM Software teams work directly with external startup clients on
+                    real, high-priority projects. As such, professionalism, reliability, and clear
+                    communication are expected at all times. I agree to uphold these expectations if
+                    selected.
                   </p>
                   <label className="flex items-start gap-3 cursor-pointer group">
                     <button
@@ -484,13 +739,20 @@ export default function ApplyPage() {
                       }`}
                     >
                       {agreed && (
-                        <svg viewBox="0 0 12 12" fill="none" stroke="white" strokeWidth={2} className="w-3 h-3">
+                        <svg
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          stroke="white"
+                          strokeWidth={2}
+                          className="w-3 h-3"
+                        >
                           <path d="M2 6l3 3 5-5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       )}
                     </button>
                     <span className="text-sm text-acm-muted leading-relaxed">
-                      I have read and agree to the disclosure above. <span className="text-acm-blue-sky">*</span>
+                      I have read and agree to the disclosure above.{" "}
+                      <span className="text-acm-blue-sky">*</span>
                     </span>
                   </label>
                 </div>

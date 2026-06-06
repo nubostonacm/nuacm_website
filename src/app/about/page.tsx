@@ -195,8 +195,7 @@ export default function AboutPage() {
           </motion.div>
 
           <div
-            className="grid gap-px bg-acm-border border border-acm-border rounded overflow-hidden"
-            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))" }}
+            className="grid grid-cols-3 gap-px bg-acm-border border border-acm-border rounded overflow-hidden"
           >
             {eboard.map((member, i) => (
               <motion.div

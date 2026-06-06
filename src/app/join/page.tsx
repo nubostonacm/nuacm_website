@@ -80,7 +80,7 @@ export default function JoinPage() {
 
       {/* ── FORM ── */}
       <section className="px-6 lg:px-16 pb-24">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl mx-auto">
 
           {status === "success" ? (
             <motion.div
