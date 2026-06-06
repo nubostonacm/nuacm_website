@@ -441,18 +441,6 @@ export default function ApplyPage() {
                 </Field>
 
                 <Field
-                  label="Relevant Courses"
-                  required
-                  hint="What courses have you taken or are about to take? Are you on co-op?"
-                >
-                  <WordLimitTextarea
-                    name="courses"
-                    placeholder="e.g. CS3500 OOD, CS4550 Web Dev, on co-op Spring 2026..."
-                    required
-                  />
-                </Field>
-
-                <Field
                   label="Other Commitments"
                   required
                   hint="List current clubs, part-time jobs, extracurriculars, and estimated hours per week for each."
@@ -632,7 +620,6 @@ export default function ApplyPage() {
                 <Field
                   label="Why do you want to join ACM?"
                   required
-                  hint="What do you hope to learn or gain from your experience? (250 words max)"
                 >
                   <WordLimitTextarea
                     name="whyAcm"
