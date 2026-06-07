@@ -521,7 +521,7 @@ export default function ApplyPage() {
               <div className="border border-acm-border bg-acm-dark p-6 rounded-sm space-y-5">
                 <SectionHeader num="04" title="Startup Interest" />
                 <p className="text-xs text-acm-muted -mt-2 leading-relaxed">
-                  Select the startups you're interested in working with. You'll rank your preferences in the field below.
+                  We're partnering with several startups, each with a specific project your team would own. Select the ones you're interested in — you'll rank your preferences below.
                 </p>
 
                 <div className="space-y-3">
@@ -583,9 +583,10 @@ export default function ApplyPage() {
                         <p className="text-[11px] text-acm-blue-sky/70 leading-relaxed mb-2 italic">
                           {s.about}
                         </p>
-                        <p className="text-xs text-acm-muted leading-relaxed mb-3">
-                          {s.description}
-                        </p>
+                        <div className="mb-3">
+                          <p className="font-mono text-[9px] tracking-widest uppercase text-acm-faint mb-1">Project</p>
+                          <p className="text-xs text-acm-muted leading-relaxed">{s.description}</p>
+                        </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div className="bg-acm-surface border border-acm-border rounded-sm px-3 py-2">
