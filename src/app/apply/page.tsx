@@ -45,17 +45,33 @@ const collegeOptions = [
 
 const startups = [
   {
-    id: "am-collective",
-    name: "AM Collective",
-    subtitle: "LeaseStack & Cursive",
-    url: "https://www.amcollectivecapital.com/",
-    tags: ["Full-Stack", "AI", "SaaS"],
+    id: "leasestack",
+    name: "LeaseStack",
+    subtitle: "AM Collective",
+    url: "https://leasestack.co/about",
+    tags: ["Full-Stack", "AI", "Real Estate"],
+    about: "AM Collective is an operational holding company that builds AI-driven ventures and helps existing companies scale through technical execution and strategic business development.",
     description:
-      "An operational holding company building AI-driven ventures. You'd work across two products: LeaseStack (a managed marketing dashboard for real estate operators) and Cursive (a B2B SaaS that enriches website visitors with intent scores and behavioral data).",
+      "A managed marketing platform for real estate operators that centralizes AppFolio, Google Ads, Meta Ads, and GA4 into a single AI-briefed dashboard — helping leasing managers at small to mid-size firms understand what's driving lease signings.",
     engineerSkills:
-      "End-to-end product dev with Claude Code, Vercel, Neon; full-stack deployment; API integration.",
+      "End-to-end product dev with Claude Code, Vercel, and Neon; full-stack deployment; API integration.",
     designerSkills:
-      "Strong UI/UX, mobile interfaces, collaboration with engineers.",
+      "Strong UI/UX, intuitive mobile interfaces, product architecture, collaboration with engineers.",
+    bonus: "Background in real estate, operations, or lead generation.",
+  },
+  {
+    id: "cursive",
+    name: "Cursive",
+    subtitle: "AM Collective",
+    url: "https://meetcursive.com",
+    tags: ["B2B SaaS", "AI", "Data Infrastructure"],
+    about: "AM Collective is an operational holding company that builds AI-driven ventures and helps existing companies scale through technical execution and strategic business development.",
+    description:
+      "A B2B SaaS data infrastructure company that analyzes clients' websites and enriches visitors with intent scores, business emails, page view history, and behavioral data — solving the problem of B2B companies lacking visibility into who is visiting their site.",
+    engineerSkills:
+      "End-to-end product dev with Claude Code, Vercel, and Neon; full-stack deployment; API integration.",
+    designerSkills:
+      "Strong UI/UX, intuitive mobile interfaces, product architecture, collaboration with engineers.",
     bonus: "Background in real estate, operations, or lead generation.",
   },
   {
@@ -64,13 +80,14 @@ const startups = [
     subtitle: "Athlete Community Platform",
     url: "https://www.teamimpact.org/",
     tags: ["Nonprofit", "Community", "React Native"],
+    about: "Team Impact is a nonprofit that connects children facing serious or chronic illnesses with college sports teams, creating meaningful experiences for both children and student athletes.",
     description:
-      "A nonprofit connecting children facing serious illnesses with college sports teams. You'd build a community platform for 200,000+ current and former student athletes to network, find mentorship, and connect with corporate partners.",
+      "A community platform connecting Team Impact's 200,000+ current and former student athletes with each other and corporate partners for networking, mentorship, and recruiting — serving as a long-term community hub while supporting sponsor engagement.",
     engineerSkills:
-      "React/React Native, Node.js, Python/Django, PostgreSQL, REST APIs, AWS/GCP/Azure.",
+      "React/React Native, Node.js, Python/Django, PostgreSQL, REST APIs, AWS/GCP/Azure. Auth, access control, or AI/data tooling a plus.",
     designerSkills:
-      "Figma, mobile-first design, component systems, dashboards and profile pages.",
-    bonus: "Background as a student athlete or connection to community-driven orgs.",
+      "Figma, mobile-first design, component systems. Dashboards, profile pages, or search interfaces a plus.",
+    bonus: "Background as a student athlete or connection to community-driven organizations.",
   },
   {
     id: "skipit",
@@ -78,12 +95,13 @@ const startups = [
     subtitle: "Trigger Identifier",
     url: "https://www.skipit.tech/",
     tags: ["Mobile", "Audio", "Social Impact"],
+    about: "Skipit is a trauma-informed platform that helps viewers with PTSD, trauma histories, and sensory sensitivities manage distressing content in film and TV.",
     description:
-      "A trauma-informed platform helping viewers with PTSD and sensory sensitivities manage distressing content. You'd build a mobile companion app that listens to media audio, identifies what's playing, and instantly surfaces trigger warnings.",
+      "A mobile companion app that listens to media audio, identifies the content being played, and instantly displays trigger categories, severity levels, and brief non-spoiler summaries — enabling users to access trigger data on TVs, tablets, and shared setups without a browser extension.",
     engineerSkills:
-      "React Native or Flutter, TypeScript, Firebase/Firestore, REST APIs, mobile development.",
+      "React Native or Flutter, TypeScript, Firebase/Firestore, REST API integration, mobile development.",
     designerSkills:
-      "Figma, mobile UI/UX, component systems, WCAG accessibility standards.",
+      "Figma, mobile UI/UX, component-based design systems, WCAG accessibility standards.",
     bonus: "Experience with audio APIs, fingerprinting, or media technology.",
   },
 ];
@@ -562,6 +580,9 @@ export default function ApplyPage() {
                           </div>
                         </div>
 
+                        <p className="text-[11px] text-acm-blue-sky/70 leading-relaxed mb-2 italic">
+                          {s.about}
+                        </p>
                         <p className="text-xs text-acm-muted leading-relaxed mb-3">
                           {s.description}
                         </p>
