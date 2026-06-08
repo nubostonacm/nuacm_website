@@ -22,5 +22,5 @@ export const announcement: SiteAnnouncement = {
     "Join a cross-functional team and build real products for real startups this semester.",
   cta: "Apply Now",
   href: "/apply",
-  dateLabel: "Applications close June 18",
+  dateLabel: "Applications close July 18",
 };
