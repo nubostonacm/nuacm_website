@@ -6,9 +6,79 @@ const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   show: (i: number = 0) => ({
     opacity: 1, y: 0,
-    transition: { duration: 0.65, ease: "easeOut" as const, delay: i * 0.1 },
+    transition: { duration: 0.55, ease: "easeOut" as const, delay: i * 0.08 },
   }),
 };
+
+const clients = [
+  {
+    name: "Leasestack",
+    tagline: "AI-powered marketing intelligence for real estate operators",
+    description:
+      "Leasestack is a managed marketing platform for real estate operators that centralizes AppFolio, Google Ads, Meta Ads, and GA4 into a single AI-briefed dashboard — helping leasing managers at small to mid-size firms understand what's actually driving lease signings.",
+    industry: "Real Estate / PropTech",
+    website: "",
+    plannedWork:
+      "ACM is building Leasestack's end-to-end product from the ground up — full-stack deployment on Vercel and Neon, API integrations with AppFolio, Google Ads, Meta Ads, and GA4, and an AI-briefed dashboard interface that surfaces actionable insights for leasing managers.",
+    contact: "Leasestack CEO",
+    logo: "/companies/leasestack.png",
+    engineerSkills: ["End-to-end product dev with Claude Code, Vercel, and Neon", "Full-stack deployment", "API integration"],
+    designerSkills: ["Strong UI/UX", "Intuitive mobile interfaces", "Product architecture", "Collaboration with engineers"],
+    links: [],
+  },
+  {
+    name: "Cursive",
+    tagline: "B2B SaaS data infrastructure for website visitor intelligence",
+    description:
+      "Cursive is a B2B SaaS data infrastructure company that analyzes clients' websites and enriches visitors with intent scores, business emails, page view history, and behavioral data — solving the core problem of B2B companies lacking visibility into who is actually visiting their site.",
+    industry: "B2B SaaS / Data Infrastructure",
+    website: "",
+    plannedWork:
+      "ACM is building core product infrastructure for Cursive — full-stack deployment on Vercel and Neon, API integrations for visitor enrichment pipelines, and dashboard interfaces that surface intent data and behavioral signals to B2B sales and marketing teams.",
+    contact: "Cursive CEO",
+    logo: "/companies/cursive.png",
+    engineerSkills: ["End-to-end product dev with Claude Code, Vercel, and Neon", "Full-stack deployment", "API integration"],
+    designerSkills: ["Strong UI/UX", "Intuitive mobile interfaces", "Product architecture", "Collaboration with engineers"],
+    links: [],
+  },
+  {
+    name: "Team IMPACT",
+    tagline: "Connecting 200,000+ student-athletes for networking and mentorship",
+    description:
+      "Team IMPACT is building a community platform connecting their 200,000+ current and former student-athletes with each other and corporate partners for networking, mentorship, and recruiting — serving as a long-term community hub while supporting sponsor engagement.",
+    industry: "Nonprofit / Community Platform",
+    website: "https://www.teamimpact.org",
+    plannedWork:
+      "ACM is developing Team IMPACT's community platform — building profile pages, search and discovery interfaces, networking flows, and sponsor engagement tooling. The platform needs to scale to 200,000+ users with robust auth, access control, and potential AI/data features.",
+    contact: "Krissie Kelleher, CEO",
+    logo: "/companies/team-impact.png",
+    engineerSkills: ["React / React Native", "Node.js", "Python / Django", "PostgreSQL", "REST APIs", "AWS / GCP / Azure", "Auth, access control, or AI/data tooling a plus"],
+    designerSkills: ["Figma", "Mobile-first design", "Component systems", "Dashboards, profile pages, or search interfaces a plus"],
+    links: [
+      { label: "Website",   url: "https://www.teamimpact.org" },
+      { label: "Instagram", url: "https://www.instagram.com/goteamimpact" },
+      { label: "LinkedIn",  url: "https://www.linkedin.com/company/team-impact-inc-" },
+    ],
+  },
+  {
+    name: "Skipit",
+    tagline: "Real-time trigger warnings for any screen, no browser extension needed",
+    description:
+      "Skipit is a mobile companion app that listens to media audio, identifies the content being played, and instantly displays trigger categories, severity levels, and brief non-spoiler summaries — enabling users to access trigger data on TVs, tablets, and shared setups without a browser extension.",
+    industry: "Consumer Mobile / Accessibility",
+    website: "https://skipit.cc",
+    plannedWork:
+      "ACM is building Skipit's mobile app — audio identification and content matching, a real-time trigger display interface with severity levels and summaries, and a component-based design system that meets WCAG accessibility standards across devices.",
+    contact: "Skipit CEO",
+    logo: "/companies/skipit.png",
+    engineerSkills: ["React Native or Flutter", "TypeScript", "Firebase / Firestore", "REST API integration", "Mobile development"],
+    designerSkills: ["Figma", "Mobile UI/UX", "Component-based design systems", "WCAG accessibility standards"],
+    links: [
+      { label: "Website",  url: "https://skipit.cc" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/skipitggoexplore" },
+    ],
+  },
+];
 
 const benefits = [
   {
@@ -67,24 +137,13 @@ const benefits = [
   },
 ];
 
-const expectations = [
-  { num: "01", title: "Established & Stable",       desc: "Startups must be established for at least one year and demonstrate confidence in continued operation throughout the semester." },
-  { num: "02", title: "High-Priority Project",      desc: "Work that genuinely impacts your mission — not vague or low-priority side initiatives." },
-  { num: "03", title: "Clearly Scoped",             desc: "Defined enough to execute in a semester-long timeline, with potential for extension." },
-  { num: "04", title: "Standalone Initiative",      desc: "Decoupled from internal engineering workflows and structured as standalone deliverables." },
-  { num: "05", title: "Weekly Communication",       desc: "Consistent, structured communication including weekly progress updates with ACM teams." },
-  { num: "06", title: "Project Brief",              desc: "A clear one-pager outlining objectives, context, and desired outcomes prior to scoping." },
-  { num: "07", title: "Community Participation",    desc: "Openness to joining ACM events — hackathons, showcases, and networking opportunities." },
-  { num: "08", title: "Full Execution Ownership",   desc: "ACM teams own all technical decision-making within agreed requirements. You set goals, we build." },
-];
-
 const goodFit = [
   { good: true,  text: "A startup building a specific, scoped technical product or feature" },
   { good: true,  text: "A project that can realistically ship in one semester" },
   { good: true,  text: "A team invested in weekly check-ins and collaboration" },
   { good: true,  text: "Work that doesn't require deep internal codebase access" },
   { good: false, text: "Vague R&D exploration without clear deliverables" },
-  { good: false, text: "Projects requiring daily integration with your internal engineers" },
+  { good: false, text: "Projects requiring daily integration with your engineers" },
   { good: false, text: "Startups that need immediate output without structured onboarding" },
 ];
 
@@ -93,29 +152,175 @@ export default function ClientsPage() {
     <div className="bg-acm-black min-h-screen">
 
       {/* ── HERO ── */}
-      <section className="relative min-h-[60vh] flex flex-col justify-center px-6 lg:px-16 pt-32 pb-16 overflow-hidden">
+      <section className="relative min-h-[58vh] flex flex-col justify-center px-6 lg:px-16 pt-32 pb-16 overflow-hidden">
         <div className="absolute inset-0 grid-bg pointer-events-none" />
-        <div className="absolute pointer-events-none" style={{ width: 600, height: 400, background: "radial-gradient(ellipse, rgba(26,111,207,0.15) 0%, transparent 70%)", top: -60, right: -100, borderRadius: "50%" }} />
+        <div className="absolute pointer-events-none" style={{ width: 600, height: 400, background: "radial-gradient(ellipse, rgba(0,85,165,0.2) 0%, transparent 70%)", top: -60, right: -100, borderRadius: "50%" }} />
         <div className="relative max-w-5xl">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex items-center gap-3 mb-6">
-            <span className="h-px w-8 bg-acm-blue-b" />
-            <span className="font-mono text-xs tracking-[0.2em] uppercase text-acm-blue-b">04 / Clients</span>
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.15 }} className="font-display font-extrabold tracking-tight leading-tight mb-6" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="h-px w-8 bg-acm-blue-sky" />
+            <span className="font-mono text-xs tracking-[0.2em] uppercase text-acm-blue-sky">04 / Clients</span>
+          </div>
+          <h1 className="font-display font-extrabold tracking-tight leading-tight mb-6" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
             Partner With <span className="text-stroke italic">Us</span>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="text-acm-muted text-lg leading-relaxed max-w-2xl">
-            ACM @ Northeastern partners with rising technology-focused startups to provide dedicated development teams that deliver real, functional software within a semester. No overhead. No filler. Focused execution.
-          </motion.p>
+          </h1>
+          <p className="text-acm-muted text-lg leading-relaxed max-w-2xl">
+            ACM @ Northeastern partners with rising technology-focused startups to provide dedicated development teams that deliver real, functional software within a semester.
+          </p>
         </div>
       </section>
 
-      {/* ── BENEFITS ── */}
+      {/* ── CURRENT CLIENTS ── */}
+      <section className="px-6 lg:px-16 py-20 border-t border-acm-border">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-12">
+            <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">Current semester</span>
+            <h2 className="font-display font-bold text-3xl tracking-tight">
+              Our <span className="text-acm-blue-sky italic">Clients</span>
+            </h2>
+          </motion.div>
+
+          <div className="space-y-4">
+            {clients.map((client, i) => (
+              <motion.div
+                key={client.name}
+                custom={i}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                className="border border-acm-border bg-acm-dark rounded-sm overflow-hidden hover:border-acm-border-b transition-colors duration-200"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-acm-border">
+
+                  {/* Left — company info */}
+                  <div className="bg-acm-dark p-8 lg:col-span-1">
+                    {/* Logo box */}
+                    <div className="w-16 h-16 border border-acm-border bg-acm-surface rounded-sm mb-5 overflow-hidden relative">
+                      {/* Initials — shown until image loads */}
+                      <div
+                        id={`client-initials-${i}`}
+                        className="absolute inset-0 flex items-center justify-center font-display font-bold text-lg text-acm-blue-sky select-none z-0"
+                      >
+                        {client.name.slice(0, 2).toUpperCase()}
+                      </div>
+                      {/* Logo — starts hidden, fades in on load */}
+                      <img
+                        src={client.logo}
+                        alt={client.name}
+                        className="absolute inset-0 w-full h-full object-contain p-2 opacity-0 transition-opacity duration-200 z-10"
+                        onLoad={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.opacity = "1";
+                          const initials = document.getElementById(`client-initials-${i}`);
+                          if (initials) initials.style.display = "none";
+                        }}
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    </div>
+                    <span className="font-mono text-[10px] tracking-widest uppercase text-acm-blue-sky bg-acm-blue-sky/10 px-2 py-1 rounded-sm inline-block mb-3">
+                      {client.industry}
+                    </span>
+                    <h3 className="font-display font-bold text-xl mb-1">{client.name}</h3>
+                    <p className="text-sm text-acm-faint mb-4 italic">{client.tagline}</p>
+                    <p className="text-sm text-acm-muted leading-relaxed mb-5">{client.description}</p>
+
+                    {client.links.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {client.links.map((link) => (
+                          <a
+                            key={link.label}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-mono text-[10px] tracking-widest uppercase border border-acm-border text-acm-faint px-3 py-1.5 rounded-sm hover:border-acm-blue-sky hover:text-acm-blue-sky transition-all duration-200 flex items-center gap-1.5"
+                          >
+                            {link.label}
+                            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-2.5 h-2.5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 9.75L9.75 2.25M9.75 2.25H5.25M9.75 2.25v4.5" />
+                            </svg>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right — project info */}
+                  <div className="bg-acm-black p-8 lg:col-span-2 flex flex-col gap-6">
+
+                    {/* What we're building */}
+                    <div>
+                      <span className="font-mono text-[10px] tracking-widest uppercase text-acm-faint block mb-3">What we're building</span>
+                      <p className="text-acm-muted leading-relaxed text-sm">{client.plannedWork}</p>
+                    </div>
+
+                    {/* Skills needed */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Engineer */}
+                      <div className="border border-acm-border bg-acm-surface/40 p-4 rounded-sm">
+                        <div className="flex items-center gap-2 mb-3">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4 text-acm-blue-sky flex-shrink-0">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+                          </svg>
+                          <span className="font-mono text-[10px] tracking-widest uppercase text-acm-blue-sky">Engineer Skills</span>
+                        </div>
+                        <ul className="space-y-1.5">
+                          {client.engineerSkills.map((s) => (
+                            <li key={s} className="flex items-start gap-2 text-xs text-acm-muted leading-relaxed">
+                              <span className="w-1 h-1 rounded-full bg-acm-blue-sky flex-shrink-0 mt-1.5" />
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Designer */}
+                      <div className="border border-acm-border bg-acm-surface/40 p-4 rounded-sm">
+                        <div className="flex items-center gap-2 mb-3">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4 text-acm-blue-sky flex-shrink-0">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
+                          </svg>
+                          <span className="font-mono text-[10px] tracking-widest uppercase text-acm-blue-sky">Designer Skills</span>
+                        </div>
+                        <ul className="space-y-1.5">
+                          {client.designerSkills.map((s) => (
+                            <li key={s} className="flex items-start gap-2 text-xs text-acm-muted leading-relaxed">
+                              <span className="w-1 h-1 rounded-full bg-acm-blue-sky flex-shrink-0 mt-1.5" />
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    {/* Point of contact */}
+                    <div className="border-t border-acm-border pt-5 flex items-center gap-3 mt-auto">
+                      <div className="w-8 h-8 border border-acm-border bg-acm-surface rounded-sm flex items-center justify-center flex-shrink-0">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4 text-acm-blue-sky">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="font-mono text-[10px] tracking-widest uppercase text-acm-faint mb-0.5">Point of Contact</p>
+                        <p className="text-sm text-acm-text font-display font-semibold">{client.contact}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CLIENT BENEFITS ── */}
       <section className="px-6 lg:px-16 py-20 border-t border-acm-border">
         <div className="max-w-7xl mx-auto">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-12">
             <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">What you get</span>
-            <h2 className="font-display font-bold text-3xl tracking-tight">Client <span className="text-acm-blue-b italic">Benefits</span></h2>
+            <h2 className="font-display font-bold text-3xl tracking-tight">
+              Client <span className="text-acm-blue-sky italic">Benefits</span>
+            </h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-acm-border border border-acm-border rounded overflow-hidden">
             {benefits.map((b, i) => (
@@ -123,7 +328,7 @@ export default function ClientsPage() {
                 className="bg-acm-black p-8 hover:bg-acm-surface transition-colors group"
               >
                 <span className="text-acm-blue-sky opacity-60 group-hover:opacity-100 transition-opacity block mb-4">{b.icon}</span>
-                <h3 className="font-display font-semibold text-base mb-2 group-hover:text-acm-blue-b transition-colors">{b.title}</h3>
+                <h3 className="font-display font-semibold text-base mb-2 group-hover:text-acm-blue-sky transition-colors">{b.title}</h3>
                 <p className="text-sm text-acm-muted leading-relaxed">{b.desc}</p>
               </motion.div>
             ))}
@@ -131,38 +336,16 @@ export default function ClientsPage() {
         </div>
       </section>
 
-      {/* ── EXPECTATIONS ── */}
-      <section className="px-6 lg:px-16 py-20 bg-acm-navy border-t border-acm-border">
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-12">
-            <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">What we expect</span>
-            <h2 className="font-display font-bold text-3xl tracking-tight mb-3">Client <span className="text-acm-blue-b italic">Expectations</span></h2>
-            <p className="text-acm-muted max-w-xl leading-relaxed">
-              These aren't barriers — they're the conditions that make partnerships work well for everyone.
-            </p>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-acm-border border border-acm-border rounded overflow-hidden">
-            {expectations.map((e, i) => (
-              <motion.div key={e.num} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-                className="bg-acm-dark p-6 hover:bg-acm-surface transition-colors"
-              >
-                <span className="font-mono text-xs text-acm-blue-b block mb-3">{e.num}</span>
-                <h3 className="font-display font-semibold text-sm mb-2">{e.title}</h3>
-                <p className="text-xs text-acm-muted leading-relaxed">{e.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── GOOD FIT ── */}
-      <section className="px-6 lg:px-16 py-20 border-t border-acm-border">
+      <section className="px-6 lg:px-16 py-20 bg-acm-navy border-t border-acm-border">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
             <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-4">The right partnership</span>
-            <h2 className="font-display font-bold text-3xl tracking-tight mb-6">What Makes a <span className="text-acm-blue-b">Good Fit</span></h2>
+            <h2 className="font-display font-bold text-3xl tracking-tight mb-6">
+              What Makes a <span className="text-acm-blue-sky">Good Fit</span>
+            </h2>
             <p className="text-acm-muted leading-relaxed mb-4">
-              We prioritize partnerships that are well-defined, high-impact, and grounded in meaningful work. We collaborate with organizations genuinely invested in their problem space.
+              We prioritize partnerships that are well-defined, high-impact, and grounded in meaningful work. We collaborate with organizations genuinely invested in their problem space and seeking an external perspective.
             </p>
             <p className="text-acm-muted leading-relaxed">
               By combining autonomy with structured collaboration, we aim to create partnerships that are efficient and mutually valuable — resulting in high-quality deliverables and meaningful long-term impact.
@@ -170,8 +353,8 @@ export default function ClientsPage() {
           </motion.div>
           <motion.div custom={1} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="space-y-2">
             {goodFit.map((item, i) => (
-              <div key={i} className={`flex items-start gap-3 p-4 border ${item.good ? "border-acm-blue/20 bg-acm-blue/5" : "border-white/5 bg-white/[0.02]"}`}>
-                <span className={`flex-shrink-0 mt-0.5 font-mono text-sm ${item.good ? "text-acm-blue-b" : "text-acm-faint"}`}>{item.good ? "✓" : "✕"}</span>
+              <div key={i} className={`flex items-start gap-3 p-4 border ${item.good ? "border-acm-blue-sky/20 bg-acm-blue-sky/4" : "border-white/5 bg-white/[0.02]"}`}>
+                <span className={`flex-shrink-0 mt-0.5 font-mono text-sm ${item.good ? "text-acm-blue-sky" : "text-acm-faint"}`}>{item.good ? "✓" : "✕"}</span>
                 <span className={`text-sm leading-relaxed ${item.good ? "text-acm-text" : "text-acm-faint"}`}>{item.text}</span>
               </div>
             ))}
@@ -180,7 +363,7 @@ export default function ClientsPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="px-6 lg:px-16 py-20 bg-acm-navy border-t border-acm-border text-center">
+      <section className="px-6 lg:px-16 py-20 border-t border-acm-border text-center">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="max-w-xl mx-auto">
           <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-4">Next steps</span>
           <h2 className="font-display font-bold text-3xl tracking-tight mb-5">Ready to Get Started?</h2>
@@ -188,10 +371,10 @@ export default function ClientsPage() {
             Reach out with a brief overview of your organization and potential project ideas. We'll explore whether there's a strong mutual fit for collaboration.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a href="mailto:nubostonacm@gmail.com" className="font-mono text-xs tracking-widest uppercase bg-acm-blue text-white px-8 py-3 rounded-sm hover:bg-acm-blue-b transition-all duration-200 hover:-translate-y-0.5">
+            <a href="mailto:nubostonacm@gmail.com" className="font-mono text-xs tracking-widest uppercase bg-acm-blue-mid text-white px-8 py-3 rounded-sm hover:bg-acm-blue transition-all duration-200 hover:-translate-y-0.5">
               Email Us
             </a>
-            <a href="https://www.linkedin.com/company/neu-acm" target="_blank" rel="noopener noreferrer" className="font-mono text-xs tracking-widest uppercase border border-acm-blue text-acm-blue-b px-8 py-3 rounded-sm hover:bg-acm-blue hover:text-white transition-all duration-200">
+            <a href="https://www.linkedin.com/company/neu-acm" target="_blank" rel="noopener noreferrer" className="font-mono text-xs tracking-widest uppercase border border-acm-blue-mid text-acm-blue-sky px-8 py-3 rounded-sm hover:bg-acm-blue-mid hover:text-white transition-all duration-200">
               LinkedIn
             </a>
           </div>

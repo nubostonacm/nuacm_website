@@ -54,6 +54,35 @@ const pillars = [
   },
 ];
 
+// ─── COMPANIES WE'VE WORKED WITH ────────────────────────────────
+// Add logos to /public/companies/ — any file added here shows automatically.
+// Name shows as text fallback if logo is missing.
+const companies = [
+  { name: "AM Collective", logo: "/companies/am-collective.png" },
+  { name: "Team IMPACT",   logo: "/companies/team-impact.png"   },
+  { name: "Skipit",        logo: "/companies/skipit.png"        },
+  { name: "Air Health",    logo: "/companies/airhealth.png"     },
+  { name: "Anthropic",     logo: "/companies/anthropic.png"     },
+  { name: "Apulza",        logo: "/companies/apulza.png"        },
+  { name: "Cursive",       logo: "/companies/cursive.png"       },
+  { name: "Lease Stack",   logo: "/companies/leasestack.png"    },
+  { name: "Perplexity",    logo: "/companies/perplexity.png"    },
+];
+
+// ─── PARTNER CLUBS ───────────────────────────────────────────────
+const partnerClubs = [
+  {
+    name: "AINU",
+    desc: "AI @ Northeastern University — a student org focused on AI education, research, and community.",
+    logo: "/clubs/ainu.png",
+  },
+  {
+    name: "Rev",
+    desc: "Northeastern's student-run venture accelerator, supporting early-stage startups on campus.",
+    logo: "/clubs/rev.png",
+  },
+];
+
 const eboard = [
   { initials: "EB",  name: "Ekam Bhatia",       title: "Chair",                          img: "/eboard/ekam.jpg"    },
   { initials: "SS",  name: "Smyan Sengupta",     title: "Vice Chair",                     img: "/eboard/smyan.jpg"   },
@@ -73,19 +102,13 @@ export default function AboutPage() {
       {/* ── HERO ── */}
       <section className="relative min-h-[58vh] flex flex-col justify-center px-6 lg:px-16 pt-32 pb-16 overflow-hidden">
         <div className="absolute inset-0 grid-bg pointer-events-none" />
-        <div
-          className="absolute pointer-events-none"
-          style={{ width: 600, height: 400, background: "radial-gradient(ellipse, rgba(0,85,165,0.2) 0%, transparent 70%)", top: -80, right: -100, borderRadius: "50%" }}
-        />
+        <div className="absolute pointer-events-none" style={{ width: 600, height: 400, background: "radial-gradient(ellipse, rgba(0,85,165,0.2) 0%, transparent 70%)", top: -80, right: -100, borderRadius: "50%" }} />
         <div className="relative max-w-5xl">
           <div className="flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-acm-blue-sky" />
             <span className="font-mono text-xs tracking-[0.2em] uppercase text-acm-blue-sky">01 / About</span>
           </div>
-          <h1
-            className="font-display font-extrabold tracking-tight leading-tight mb-6"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
-          >
+          <h1 className="font-display font-extrabold tracking-tight leading-tight mb-6" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
             Who We <span className="text-stroke italic">Are</span>
           </h1>
           <p className="text-acm-muted text-lg leading-relaxed max-w-2xl">
@@ -109,13 +132,7 @@ export default function AboutPage() {
               ACM supports researchers, educators, and students through publications, conferences, and educational resources, while fostering collaboration and professional growth through networking and industry standards.
             </p>
           </motion.div>
-
-          <motion.div
-            custom={1}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeUp}
+          <motion.div custom={1} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
             className="grid grid-cols-2 gap-px bg-acm-border border border-acm-border rounded overflow-hidden"
           >
             {[
@@ -136,13 +153,7 @@ export default function AboutPage() {
       {/* ── CHAPTER ── */}
       <section className="px-6 lg:px-16 py-20 bg-acm-navy border-t border-acm-border">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            className="mb-12 max-w-2xl"
-          >
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-12 max-w-2xl">
             <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-4">Our chapter</span>
             <h2 className="font-display font-bold text-3xl lg:text-4xl tracking-tight mb-5">
               ACM <span className="text-acm-blue-sky">@</span> Northeastern
@@ -151,24 +162,152 @@ export default function AboutPage() {
               We organize workshops, hackathons, and networking events to support technical skill development and meaningful industry connections. Our software branch partners with startups — building real products over a full semester with cross-functional student teams.
             </p>
           </motion.div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-acm-border border border-acm-border rounded overflow-hidden">
             {pillars.map((p, i) => (
+              <motion.div key={p.title} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
+                className="bg-acm-black p-8 hover:bg-acm-surface transition-colors group"
+              >
+                <span className="font-mono text-xs text-acm-blue-sky block mb-4">{p.num}</span>
+                <span className="text-acm-blue-sky opacity-60 group-hover:opacity-100 transition-opacity block mb-4">{p.icon}</span>
+                <h3 className="font-display font-bold text-base mb-2 group-hover:text-acm-blue-sky transition-colors">{p.title}</h3>
+                <p className="text-sm text-acm-muted leading-relaxed">{p.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── COMPANIES WE'VE WORKED WITH ── */}
+      {/* Same eboard-style grid — square logo cards, name below, initials if no logo */}
+      <section className="px-6 lg:px-16 py-20 border-t border-acm-border">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-10">
+            <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">Our work</span>
+            <h2 className="font-display font-bold text-3xl tracking-tight mb-3">
+              Companies We've <span className="text-acm-blue-sky italic">Worked With</span>
+            </h2>
+            <p className="text-acm-muted text-sm leading-relaxed max-w-lg">
+              Startups and organizations we've partnered with to build real software.
+            </p>
+          </motion.div>
+
+          {/* Grid — same style as eboard but slightly smaller cards */}
+          <div
+            className="grid gap-px bg-acm-border border border-acm-border rounded overflow-hidden"
+            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))" }}
+          >
+            {companies.map((company, i) => (
               <motion.div
-                key={p.title}
+                key={company.name}
                 custom={i}
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
                 variants={fadeUp}
+                className="bg-acm-dark hover:bg-acm-surface transition-colors group overflow-hidden flex flex-col"
+              >
+                {/* Square logo area */}
+                <div
+                  className="relative w-full overflow-hidden bg-acm-surface"
+                  style={{ aspectRatio: "1/1" }}
+                >
+                  {/* Initials placeholder */}
+                  <div
+                    id={`co-placeholder-${i}`}
+                    className="absolute inset-0 flex items-center justify-center font-display font-extrabold text-3xl text-acm-blue-sky opacity-25 select-none pointer-events-none z-0"
+                  >
+                    {company.name.slice(0, 2).toUpperCase()}
+                  </div>
+
+                  {/* Logo — fades in on load, starts invisible */}
+                  <div
+                    id={`co-photo-${i}`}
+                    className="absolute inset-0 z-10 opacity-0 transition-opacity duration-300 flex items-center justify-center p-6"
+                  >
+                    <img
+                      src={company.logo}
+                      alt={company.name}
+                      className="max-w-full max-h-full object-contain"
+                      style={{ filter: "grayscale(20%)", transition: "filter 0.25s" }}
+                      onLoad={() => {
+                        const photo = document.getElementById(`co-photo-${i}`);
+                        const placeholder = document.getElementById(`co-placeholder-${i}`);
+                        if (photo) photo.style.opacity = "1";
+                        if (placeholder) placeholder.style.display = "none";
+                      }}
+                      onError={() => {
+                        const photo = document.getElementById(`co-photo-${i}`);
+                        if (photo) photo.style.display = "none";
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.filter = "grayscale(20%)";
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Name below */}
+                <div className="px-4 py-3 border-t border-acm-border">
+                  <p className="font-display font-bold text-sm text-acm-text leading-snug group-hover:text-acm-blue-sky transition-colors">
+                    {company.name}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mt-6">
+            <Link href="/clients" className="font-mono text-xs tracking-widest uppercase text-acm-faint hover:text-acm-blue-sky transition-colors flex items-center gap-1.5">
+              See current client projects →
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── PARTNER CLUBS ── */}
+      <section className="px-6 lg:px-16 py-20 bg-acm-navy border-t border-acm-border">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-12">
+            <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">Campus network</span>
+            <h2 className="font-display font-bold text-3xl tracking-tight mb-3">
+              Partner <span className="text-acm-blue-sky italic">Clubs</span>
+            </h2>
+            <p className="text-acm-muted max-w-xl leading-relaxed">
+              We collaborate with student organizations across Northeastern to build a stronger tech community on campus.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-acm-border border border-acm-border rounded overflow-hidden">
+            {partnerClubs.map((club, i) => (
+              <motion.div key={club.name} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
                 className="bg-acm-black p-8 hover:bg-acm-surface transition-colors group"
               >
-                <span className="font-mono text-xs text-acm-blue-sky block mb-4">{p.num}</span>
-                <span className="text-acm-blue-sky opacity-60 group-hover:opacity-100 transition-opacity block mb-4">
-                  {p.icon}
-                </span>
-                <h3 className="font-display font-bold text-base mb-2 group-hover:text-acm-blue-sky transition-colors">{p.title}</h3>
-                <p className="text-sm text-acm-muted leading-relaxed">{p.desc}</p>
+                <div className="w-14 h-14 border border-acm-border bg-acm-surface rounded-sm flex items-center justify-center mb-5 overflow-hidden relative group-hover:border-acm-blue-sky/40 transition-colors">
+                  <span
+                    id={`club-init-${i}`}
+                    className="font-display font-bold text-base text-acm-blue-sky opacity-40"
+                  >
+                    {club.name.slice(0, 2)}
+                  </span>
+                  <img
+                    src={club.logo}
+                    alt={club.name}
+                    className="absolute inset-0 w-full h-full object-contain p-2 opacity-0 transition-opacity duration-200"
+                    onLoad={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.opacity = "1";
+                      const init = document.getElementById(`club-init-${i}`);
+                      if (init) init.style.display = "none";
+                    }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                </div>
+                <h3 className="font-display font-bold text-lg mb-2 group-hover:text-acm-blue-sky transition-colors">{club.name}</h3>
+                <p className="text-sm text-acm-muted leading-relaxed">{club.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -178,13 +317,7 @@ export default function AboutPage() {
       {/* ── E-BOARD PHOTO GRID ── */}
       <section className="px-6 lg:px-16 py-20 bg-acm-dark border-t border-acm-border">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            className="mb-10"
-          >
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-10">
             <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">Executive board</span>
             <h2 className="font-display font-bold text-3xl lg:text-4xl tracking-tight mb-3">
               Meet the <span className="text-acm-blue-sky italic">Team</span>
@@ -194,37 +327,19 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <div
-            className="grid grid-cols-3 gap-px bg-acm-border border border-acm-border rounded overflow-hidden"
-          >
+          <div className="grid grid-cols-3 gap-px bg-acm-border border border-acm-border rounded overflow-hidden">
             {eboard.map((member, i) => (
-              <motion.div
-                key={member.initials + i}
-                custom={i}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={fadeUp}
+              <motion.div key={member.initials + i} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
                 className="bg-acm-dark hover:bg-acm-surface transition-colors group overflow-hidden flex flex-col"
               >
-                {/* Square photo area */}
-                <div
-                  className="relative w-full overflow-hidden bg-acm-surface"
-                  style={{ aspectRatio: "1/1" }}
-                >
-                  {/* Initials placeholder — sits behind photo, hidden once image loads */}
+                <div className="relative w-full overflow-hidden bg-acm-surface" style={{ aspectRatio: "1/1" }}>
                   <div
                     id={`placeholder-${i}`}
                     className="absolute inset-0 flex items-center justify-center font-display font-extrabold text-4xl text-acm-blue-sky opacity-30 select-none pointer-events-none z-0"
                   >
                     {member.initials.replace("2", "")}
                   </div>
-
-                  {/* Photo using Next.js Image for proper optimization */}
-                  <div
-                    id={`photo-${i}`}
-                    className="absolute inset-0 z-10 opacity-0 transition-opacity duration-300"
-                  >
+                  <div id={`photo-${i}`} className="absolute inset-0 z-10 opacity-0 transition-opacity duration-300">
                     <Image
                       src={member.img}
                       alt={member.name}
@@ -233,14 +348,12 @@ export default function AboutPage() {
                       className="object-cover transition-all duration-300"
                       style={{ filter: "grayscale(15%)" }}
                       onLoad={() => {
-                        // Show photo, hide initials
                         const photo = document.getElementById(`photo-${i}`);
                         const placeholder = document.getElementById(`placeholder-${i}`);
                         if (photo) photo.style.opacity = "1";
                         if (placeholder) placeholder.style.display = "none";
                       }}
                       onError={() => {
-                        // Hide photo wrapper, keep initials
                         const photo = document.getElementById(`photo-${i}`);
                         if (photo) photo.style.display = "none";
                       }}
@@ -255,15 +368,9 @@ export default function AboutPage() {
                     />
                   </div>
                 </div>
-
-                {/* Name + title */}
                 <div className="px-4 py-4 border-t border-acm-border">
-                  <p className="font-display font-bold text-sm text-acm-text leading-snug mb-1">
-                    {member.name}
-                  </p>
-                  <p className="font-mono text-[10px] tracking-wide uppercase text-acm-faint leading-tight">
-                    {member.title}
-                  </p>
+                  <p className="font-display font-bold text-sm text-acm-text leading-snug mb-1">{member.name}</p>
+                  <p className="font-mono text-[10px] tracking-wide uppercase text-acm-faint leading-tight">{member.title}</p>
                 </div>
               </motion.div>
             ))}
@@ -273,28 +380,16 @@ export default function AboutPage() {
 
       {/* ── CTA ── */}
       <section className="px-6 lg:px-16 py-20 border-t border-acm-border text-center">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          className="max-w-xl mx-auto"
-        >
+        <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="max-w-xl mx-auto">
           <h2 className="font-display font-bold text-3xl tracking-tight mb-4">Want to work with us?</h2>
           <p className="text-acm-muted mb-8 leading-relaxed">
             Check out the software division or reach out directly to get involved.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link
-              href="/software"
-              className="font-mono text-xs tracking-widest uppercase bg-acm-blue-mid text-white px-8 py-3 rounded-sm hover:bg-acm-blue transition-all duration-200 hover:-translate-y-0.5"
-            >
+            <Link href="/software" className="font-mono text-xs tracking-widest uppercase bg-acm-blue-mid text-white px-8 py-3 rounded-sm hover:bg-acm-blue transition-all duration-200 hover:-translate-y-0.5">
               Software Division →
             </Link>
-            <Link
-              href="/contact"
-              className="font-mono text-xs tracking-widest uppercase border border-acm-blue-mid text-acm-blue-sky px-8 py-3 rounded-sm hover:bg-acm-blue-mid hover:text-white transition-all duration-200"
-            >
+            <Link href="/contact" className="font-mono text-xs tracking-widest uppercase border border-acm-blue-mid text-acm-blue-sky px-8 py-3 rounded-sm hover:bg-acm-blue-mid hover:text-white transition-all duration-200">
               Contact Us
             </Link>
           </div>
