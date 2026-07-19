@@ -157,11 +157,6 @@ export default function SoftwarePage() {
             We partner with rising technology-focused startups to design and deliver impactful software solutions over the course of a semester. Independent teams. Real products. Structured execution.
           </p>
           <div className="flex flex-wrap gap-4">
-            {
-            <Link href="/apply" className="font-mono text-xs tracking-widest uppercase bg-acm-blue-mid text-white px-6 py-3 rounded-sm hover:bg-acm-blue transition-all duration-200 hover:-translate-y-0.5">
-              Apply for a Team →
-            </Link>
-            }
             <Link href="/clients" className="font-mono text-xs tracking-widest uppercase border border-acm-blue-mid text-acm-blue-sky px-6 py-3 rounded-sm hover:bg-acm-blue-mid hover:text-white transition-all duration-200">
               Client Info →
             </Link>
