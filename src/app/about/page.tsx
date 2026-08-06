@@ -55,8 +55,6 @@ const pillars = [
 ];
 
 // ─── COMPANIES WE'VE WORKED WITH ────────────────────────────────
-// Add logos to /public/companies/ — any file added here shows automatically.
-// Name shows as text fallback if logo is missing.
 const companies = [
   { name: "AM Collective", logo: "/companies/am-collective.png" },
   { name: "Team IMPACT",   logo: "/companies/team-impact.png"   },
@@ -67,6 +65,34 @@ const companies = [
   { name: "Cursive",       logo: "/companies/cursive.png"       },
   { name: "Lease Stack",   logo: "/companies/leasestack.png"    },
   { name: "Perplexity",    logo: "/companies/perplexity.png"    },
+];
+
+// ─── COMPANIES WE'VE WORKED AT ──────────────────────────────────
+const companiesWorkedAt = [
+  { name: "Morgan Stanley", logo: "/companies-worked-at/morganstanley.png" },
+  { name: "IBM", logo: "/companies-worked-at/ibm.png" },
+  { name: "Amazon", logo: "/companies-worked-at/amazon.png" },
+  { name: "Pfizer", logo: "/companies-worked-at/pfizer.png" },
+  { name: "Accenture", logo: "/companies-worked-at/accenture.png" },
+  { name: "General Atlantic", logo: "/companies-worked-at/general-atlantic.png" },
+  { name: "National Geospatial-Intelligence Agency", logo: "/companies-worked-at/ngia.png" },
+  { name: "Anthropic", logo: "/companies-worked-at/anthropic.png" },
+  { name: "Adobe", logo: "/companies-worked-at/adobe.png" },
+  { name: "Chewy", logo: "/companies-worked-at/chewy.png" },
+  { name: "MITRE", logo: "/companies-worked-at/mitre.png" },
+  { name: "Wayfair", logo: "/companies-worked-at/wayfair.png" },
+  { name: "Delinea", logo: "/companies-worked-at/delinea.png" },
+  { name: "Analog Devices", logo: "/companies-worked-at/adi.png" },
+  { name: "Dana-Farber Cancer Institute", logo: "/companies-worked-at/dana-farber.png" },
+  { name: "Synchrony", logo: "/companies-worked-at/synchrony.png" },
+  { name: "Naralogics", logo: "/companies-worked-at/naralogics.png" },
+  { name: "Waterside Group", logo: "/companies-worked-at/waterside-group.png" },
+  { name: "Ricovr", logo: "/companies-worked-at/ricovr.png" },
+  { name: "Fuzion", logo: "/companies-worked-at/fuzionx.png" },
+  { name: "S2N Health", logo: "/companies-worked-at/s2n-health.png" },
+  { name: "Symbotic", logo: "/companies-worked-at/symbotic.png" },
+  { name: "Brewster Ambulance Service", logo: "/companies-worked-at/brewster.png" },
+  { name: "Superpower Mentors", logo: "/companies-worked-at/superpower-mentors.png" },
 ];
 
 // ─── PARTNER CLUBS ───────────────────────────────────────────────
@@ -80,6 +106,11 @@ const partnerClubs = [
     name: "Rev",
     desc: "Northeastern's student-run venture accelerator, supporting early-stage startups on campus.",
     logo: "/clubs/rev.png",
+  },
+  {
+    name: "CBC",
+    desc: "Claude Builder's Club at Northeastern — a community of students exploring AI development and building with Claude.",
+    logo: "/clubs/cbc.png",
   },
 ];
 
@@ -264,6 +295,89 @@ export default function AboutPage() {
               See current client projects →
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── COMPANIES WE'VE WORKED AT ── */}
+      <section className="px-6 lg:px-16 py-20 bg-acm-navy border-t border-acm-border">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mb-10">
+            <span className="font-mono text-xs tracking-widest uppercase text-acm-faint block mb-3">Our team's background</span>
+            <h2 className="font-display font-bold text-3xl tracking-tight mb-3">
+              Companies We've <span className="text-acm-blue-sky italic">Worked At</span>
+            </h2>
+            <p className="text-acm-muted text-sm leading-relaxed max-w-lg">
+              Our leadership and members bring experience from Fortune 500s, research institutions, and emerging startups.
+            </p>
+          </motion.div>
+
+          {/* Grid — same style as companies we've worked with */}
+          <div
+            className="grid gap-px bg-acm-border border border-acm-border rounded overflow-hidden"
+            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))" }}
+          >
+            {companiesWorkedAt.map((company, i) => (
+              <motion.div
+                key={company.name}
+                custom={i}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                className="bg-acm-dark hover:bg-acm-surface transition-colors group overflow-hidden flex flex-col"
+              >
+                {/* Square logo area */}
+                <div
+                  className="relative w-full overflow-hidden bg-acm-surface"
+                  style={{ aspectRatio: "1/1" }}
+                >
+                  {/* Initials placeholder */}
+                  <div
+                    id={`worked-at-placeholder-${i}`}
+                    className="absolute inset-0 flex items-center justify-center font-display font-extrabold text-3xl text-acm-blue-sky opacity-25 select-none pointer-events-none z-0"
+                  >
+                    {company.name.slice(0, 2).toUpperCase()}
+                  </div>
+
+                  {/* Logo — fades in on load, starts invisible */}
+                  <div
+                    id={`worked-at-photo-${i}`}
+                    className="absolute inset-0 z-10 opacity-0 transition-opacity duration-300 flex items-center justify-center p-6"
+                  >
+                    <img
+                      src={company.logo}
+                      alt={company.name}
+                      className="max-w-full max-h-full object-contain"
+                      style={{ filter: "grayscale(20%)", transition: "filter 0.25s" }}
+                      onLoad={() => {
+                        const photo = document.getElementById(`worked-at-photo-${i}`);
+                        const placeholder = document.getElementById(`worked-at-placeholder-${i}`);
+                        if (photo) photo.style.opacity = "1";
+                        if (placeholder) placeholder.style.display = "none";
+                      }}
+                      onError={() => {
+                        const photo = document.getElementById(`worked-at-photo-${i}`);
+                        if (photo) photo.style.display = "none";
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.filter = "grayscale(20%)";
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Name below */}
+                <div className="px-4 py-3 border-t border-acm-border">
+                  <p className="font-display font-bold text-sm text-acm-text leading-snug group-hover:text-acm-blue-sky transition-colors">
+                    {company.name}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
