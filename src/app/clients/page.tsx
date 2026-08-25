@@ -74,8 +74,7 @@ const clients = [
     engineerSkills: ["React Native or Flutter", "TypeScript", "Firebase / Firestore", "REST API integration", "Mobile development"],
     designerSkills: ["Figma", "Mobile UI/UX", "Component-based design systems", "WCAG accessibility standards"],
     links: [
-      { label: "Website",  url: "https://skipit.cc" },
-      { label: "LinkedIn", url: "https://www.skipit.tech/index.html" },
+      { label: "Website",  url: "https://www.skipit.tech/index.html" }
     ],
   },
 ];
