@@ -75,7 +75,7 @@ const clients = [
     designerSkills: ["Figma", "Mobile UI/UX", "Component-based design systems", "WCAG accessibility standards"],
     links: [
       { label: "Website",  url: "https://skipit.cc" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/skipitggoexplore" },
+      { label: "LinkedIn", url: "https://www.skipit.tech/index.html" },
     ],
   },
 ];
